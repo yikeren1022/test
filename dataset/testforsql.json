@@ -1,0 +1,35 @@
+{
+	"name": "testforsql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "test2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "No",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Name",
+				"type": "varchar"
+			},
+			{
+				"name": "Sex",
+				"type": "varchar"
+			},
+			{
+				"name": "Age",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "test1"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
