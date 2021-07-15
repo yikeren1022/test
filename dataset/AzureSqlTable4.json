@@ -1,0 +1,67 @@
+{
+	"name": "AzureSqlTable4",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CardID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IssueID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ExID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EmployeeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CardID1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CustomerID1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IssueID1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ExID1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EmployeeID1",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "testa"
+		}
+	}
+}
