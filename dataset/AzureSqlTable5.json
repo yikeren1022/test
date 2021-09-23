@@ -1,0 +1,29 @@
+{
+	"name": "AzureSqlTable5",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "colum1",
+				"type": "varchar"
+			},
+			{
+				"name": "colum2",
+				"type": "varchar"
+			},
+			{
+				"name": "colum3",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "adf"
+		}
+	}
+}
