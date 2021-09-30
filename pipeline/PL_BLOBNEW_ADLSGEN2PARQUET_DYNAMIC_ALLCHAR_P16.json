@@ -1,0 +1,136 @@
+{
+	"name": "PL_BLOBNEW_ADLSGEN2PARQUET_DYNAMIC_ALLCHAR_P16",
+	"properties": {
+		"description": "DS_CONFIG_LKPNEWBLOB_SAPDataFileLoadList_P16",
+		"activities": [
+			{
+				"name": "LKP_SAPDataFileLoadList",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "HandleEachFileToLoad",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LKP_SAPDataFileLoadList",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LKP_SAPDataFileLoadList').output.value",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 10,
+					"activities": [
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(item().DELIMITER,'|')",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "Dataflow_BLOB_ADLSParquet",
+										"type": "ExecuteDataFlow",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "1.00:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"compute": {
+												"coreCount": 32,
+												"computeType": "General"
+											},
+											"traceLevel": "Fine"
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "CopyFileBLOB_ADLSGEN2PARQUET",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "7.00:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "DelimitedTextSource",
+												"storeSettings": {
+													"type": "AzureBlobStorageReadSettings",
+													"recursive": true,
+													"enablePartitionDiscovery": false
+												},
+												"formatSettings": {
+													"type": "DelimitedTextReadSettings"
+												}
+											},
+											"sink": {
+												"type": "ParquetSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings",
+													"blockSizeInMB": 20
+												},
+												"formatSettings": {
+													"type": "ParquetWriteSettings"
+												}
+											},
+											"enableStaging": true,
+											"enableSkipIncompatibleRow": true
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		],
+		"concurrency": 30,
+		"annotations": [],
+		"lastPublishTime": "2021-09-24T08:07:04Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
