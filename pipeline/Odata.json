@@ -17,6 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "ODataSource",
+						"query": "$top2",
 						"httpRequestTimeout": "00:05:00"
 					},
 					"sink": {
