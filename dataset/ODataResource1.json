@@ -1,0 +1,15 @@
+{
+	"name": "ODataResource1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OData1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "ODataResource",
+		"schema": [],
+		"typeProperties": {
+			"path": "People"
+		}
+	}
+}

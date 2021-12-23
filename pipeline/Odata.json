@@ -15,8 +15,27 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"source": {
+						"type": "ODataSource",
+						"httpRequestTimeout": "00:05:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "ODataResource1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
