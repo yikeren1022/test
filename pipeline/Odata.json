@@ -28,7 +28,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "ODataSource",
-									"query": "select * from people where LastName = \"Guess\" order by date limit 10 offset 10*i",
+									"query": "select * from people where LastName = \"Guess\" ",
 									"httpRequestTimeout": "00:05:00"
 								},
 								"sink": {
@@ -48,19 +48,6 @@
 									"type": "DatasetReference"
 								}
 							]
-						},
-						{
-							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Copy data1_copy1_copy1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": []
 						}
 					],
 					"timeout": "7.00:00:00"
@@ -71,6 +58,12 @@
 			"i": {
 				"type": "int",
 				"defaultValue": 0
+			}
+		},
+		"variables": {
+			"i": {
+				"type": "String",
+				"defaultValue": "1"
 			}
 		},
 		"annotations": []
