@@ -28,7 +28,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "ODataSource",
-									"query": "select * from people where LastName = \"Guess\" ",
+									"query": "$filter=LastName eq 'Guess'",
 									"httpRequestTimeout": "00:05:00"
 								},
 								"sink": {
@@ -54,18 +54,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"i": {
-				"type": "int",
-				"defaultValue": 0
-			}
-		},
-		"variables": {
-			"i": {
-				"type": "String",
-				"defaultValue": "1"
-			}
-		},
 		"annotations": []
 	}
 }
