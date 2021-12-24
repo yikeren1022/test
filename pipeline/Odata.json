@@ -3,18 +3,18 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "ForEach1",
-				"type": "ForEach",
+				"name": "Until1",
+				"type": "Until",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
-					"items": {
-						"value": "@variables('filepattern')",
+					"expression": {
+						"value": "@activity('Copy data1_copy1_copy1').outputrow == 1",
 						"type": "Expression"
 					},
 					"activities": [
 						{
-							"name": "Copy data1_copy1",
+							"name": "Copy data1_copy1_copy1",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -28,7 +28,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "ODataSource",
-									"query": "$top=5&$skip=5",
+									"query": "select * from people where LastName = \"Guess\" order by date limit 10 offset 10*i",
 									"httpRequestTimeout": "00:05:00"
 								},
 								"sink": {
@@ -48,11 +48,31 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Copy data1_copy1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": []
 						}
-					]
+					],
+					"timeout": "7.00:00:00"
 				}
 			}
 		],
+		"parameters": {
+			"i": {
+				"type": "int",
+				"defaultValue": 0
+			}
+		},
 		"annotations": []
 	}
 }
