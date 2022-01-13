@@ -4,7 +4,7 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory name",
+			"metadata": "データ ファクトリ名",
 			"defaultValue": "adfyikeren"
 		},
 		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
@@ -13,11 +13,11 @@
 		},
 		"containerUri": {
 			"type": "string",
-			"metadata": "URI to storage account containing linked ARM templates"
+			"metadata": "リンクされた ARM テンプレートを含むストレージ アカウントの URI"
 		},
 		"containerSasToken": {
 			"type": "string",
-			"metadata": "Sas token to storage account containing linked ARM templates"
+			"metadata": "リンクされた ARM テンプレートを格納するストレージ アカウントへの SAS トークン"
 		}
 	},
 	"variables": {

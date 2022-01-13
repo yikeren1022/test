@@ -4,7 +4,7 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory name",
+			"metadata": "データ ファクトリ名",
 			"defaultValue": "adfyikeren"
 		},
 		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
@@ -109,7 +109,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "aaa.csv",
+						"fileName": "*aa",
 						"folderPath": "Input",
 						"container": "adftutorial"
 					},
