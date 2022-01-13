@@ -8,6 +8,9 @@
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
+		"AzureBlobStorage2_connectionString": {
+			"value": ""
+		},
 		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
 			"value": "https://adfyikeren.blob.core.windows.net"
 		},
