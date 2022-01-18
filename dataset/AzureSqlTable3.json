@@ -61,7 +61,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "test"
+			"table": "testa"
 		}
 	}
 }
