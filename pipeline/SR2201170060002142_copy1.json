@@ -1,5 +1,5 @@
 {
-	"name": "SR2201170060002142",
+	"name": "SR2201170060002142_copy1",
 	"properties": {
 		"activities": [
 			{
@@ -35,13 +35,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlTable3",
+						"referenceName": "AzureSqlTable5",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlTable2",
+						"referenceName": "AzureSqlTable1",
 						"type": "DatasetReference"
 					}
 				]
