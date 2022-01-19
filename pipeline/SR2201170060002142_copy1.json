@@ -32,10 +32,10 @@
 					"enableStaging": true,
 					"stagingSettings": {
 						"linkedServiceName": {
-							"referenceName": "AzureDataLakeStorage1",
+							"referenceName": "AzureBlobStorage1",
 							"type": "LinkedServiceReference"
 						},
-						"path": "testsource"
+						"path": "test"
 					}
 				},
 				"inputs": [
