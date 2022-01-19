@@ -16,7 +16,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "CardInfo"
+			"table": "copytest"
 		}
 	}
 }
