@@ -5,16 +5,28 @@
 		"factoryName": {
 			"value": "adfyikeren"
 		},
+		"AzureBlobStorage2_connectionString": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
-		"AzureBlobStorage2_connectionString": {
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
+		"AzureSynapseAnalytics1_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage2_accountKey": {
 			"value": ""
 		},
 		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
 			"value": "https://adfyikeren.blob.core.windows.net"
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://adlsyikeren.dfs.core.windows.net"
+		},
+		"AzureDataLakeStorage2_properties_typeProperties_url": {
 			"value": "https://adlsyikeren.dfs.core.windows.net"
 		},
 		"containerUri": {
