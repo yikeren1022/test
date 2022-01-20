@@ -21,27 +21,27 @@
 						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "AzureSqlSink"
+						"type": "SqlDWSink",
+						"allowCopyCommand": true
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "AzureDataLakeStorage2",
+							"type": "LinkedServiceReference"
+						},
+						"path": "test"
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlTable3",
+						"referenceName": "AzureSqlTable5",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlTable2",
+						"referenceName": "AzureSynapseAnalyticsTable1",
 						"type": "DatasetReference"
 					}
 				]
