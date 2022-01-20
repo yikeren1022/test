@@ -35,7 +35,7 @@
 							"referenceName": "AzureDataLakeStorage2",
 							"type": "LinkedServiceReference"
 						},
-						"path": "test"
+						"path": "test/testforstaging"
 					}
 				},
 				"inputs": [

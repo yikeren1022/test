@@ -1,9 +1,9 @@
 {
-	"name": "SR2201170060002142",
+	"name": "SAP_SynapseCopy_inquiry",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Copy",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -22,12 +22,7 @@
 					},
 					"sink": {
 						"type": "SqlDWSink",
-						"allowPolyBase": true,
-						"polyBaseSettings": {
-							"rejectValue": 0,
-							"rejectType": "value",
-							"useTypeDefault": true
-						}
+						"allowCopyCommand": true
 					},
 					"enableStaging": true,
 					"stagingSettings": {
@@ -52,6 +47,8 @@
 				]
 			}
 		],
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2022-01-17T08:17:36Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }
