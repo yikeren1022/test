@@ -22,21 +22,9 @@
 					},
 					"sink": {
 						"type": "SqlDWSink",
-						"allowPolyBase": true,
-						"polyBaseSettings": {
-							"rejectValue": 0,
-							"rejectType": "value",
-							"useTypeDefault": true
-						}
+						"allowCopyCommand": true
 					},
-					"enableStaging": true,
-					"stagingSettings": {
-						"linkedServiceName": {
-							"referenceName": "AzureDataLakeStorage2",
-							"type": "LinkedServiceReference"
-						},
-						"path": "test/testforstaging"
-					}
+					"enableStaging": false
 				},
 				"inputs": [
 					{
