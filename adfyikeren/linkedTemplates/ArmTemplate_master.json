@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "'AzureDataLakeStorage1' の 'accountKey' のセキュリティで保護された文字列"
 		},
+		"AzureDataLakeStorage2_accountKey": {
+			"type": "secureString",
+			"metadata": "'AzureDataLakeStorage2' の 'accountKey' のセキュリティで保護された文字列"
+		},
 		"AzureSqlDatabase1_connectionString": {
 			"type": "secureString",
 			"metadata": "'AzureSqlDatabase1' の 'connectionString' のセキュリティで保護された文字列"
@@ -22,10 +26,6 @@
 		"AzureSynapseAnalytics1_connectionString": {
 			"type": "secureString",
 			"metadata": "'AzureSynapseAnalytics1' の 'connectionString' のセキュリティで保護された文字列"
-		},
-		"AzureDataLakeStorage2_accountKey": {
-			"type": "secureString",
-			"metadata": "'AzureDataLakeStorage2' の 'accountKey' のセキュリティで保護された文字列"
 		},
 		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
 			"type": "string",
@@ -72,14 +72,14 @@
 					"AzureDataLakeStorage1_accountKey": {
 						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
 					},
+					"AzureDataLakeStorage2_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage2_accountKey')]"
+					},
 					"AzureSqlDatabase1_connectionString": {
 						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
 					},
 					"AzureSynapseAnalytics1_connectionString": {
 						"value": "[parameters('AzureSynapseAnalytics1_connectionString')]"
-					},
-					"AzureDataLakeStorage2_accountKey": {
-						"value": "[parameters('AzureDataLakeStorage2_accountKey')]"
 					},
 					"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
 						"value": "[parameters('AzureBlobStorage1_properties_typeProperties_serviceEndpoint')]"
