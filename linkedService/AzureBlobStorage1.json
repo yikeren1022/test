@@ -1,12 +1,11 @@
 {
 	"name": "AzureBlobStorage1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "AzureBlobStorage",
 		"typeProperties": {
-			"serviceEndpoint": "https://adfyikeren.blob.core.windows.net",
-			"accountKind": "StorageV2"
+			"sasUri": "<https://adlsgenwyikeren.blob.core.windows.net/adf/aaade.csv>?<sp=w&st=2022-01-28T01:35:21Z&se=2022-01-28T09:35:21Z&spr=https&sv=2020-08-04&sr=b&sig=zp573EblV3IF6D0H6V0wRzZmGihNafbUYxMimoMCwzY%3D>?sp=w&st=2022-01-28T01:35:21Z&se=2022-01-28T09:35:21Z&spr=https&sv=2020-08-04&sr=b&sig=zp573EblV3IF6D0H6V0wRzZmGihNafbUYxMimoMCwzY%3D"
 		}
-	},
-	"type": "Microsoft.DataFactory/factories/linkedservices"
+	}
 }
