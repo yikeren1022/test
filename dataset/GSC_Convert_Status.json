@@ -1,0 +1,39 @@
+{
+	"name": "GSC_Convert_Status",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GSC",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"programId": {
+				"type": "string"
+			},
+			"DATAAREAID": {
+				"type": "string"
+			},
+			"sysFromTo": {
+				"type": "string"
+			},
+			"targetDir": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlob",
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat"
+			},
+			"fileName": {
+				"value": "@{dataset().programId}_@{dataset().DATAAREAID}_Status.json",
+				"type": "Expression"
+			},
+			"folderPath": {
+				"value": "sharebox/@{dataset().sysFromTo}/@{dataset().targetDir}/@{dataset().programId}",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

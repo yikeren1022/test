@@ -1,0 +1,41 @@
+{
+	"name": "GATEWAYSERVER",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GATEWAYSERVER",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"programId": {
+				"type": "string"
+			},
+			"DATAAREAID": {
+				"type": "string"
+			},
+			"sysFromTo": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "FileShare",
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ",",
+				"rowDelimiter": "",
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": false
+			},
+			"fileName": {
+				"value": "@{dataset().programId}_@{dataset().DATAAREAID}_finished",
+				"type": "Expression"
+			},
+			"folderPath": {
+				"value": "@{dataset().sysFromTo}/Inbound/@{dataset().programId}",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

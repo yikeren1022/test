@@ -1,0 +1,30 @@
+{
+	"name": "GATEWAYSERVER_LOT2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GATEWAYSERVER",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"dir": {
+				"type": "string"
+			},
+			"file": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "FileShare",
+		"typeProperties": {
+			"fileName": {
+				"value": "@dataset().file",
+				"type": "Expression"
+			},
+			"folderPath": {
+				"value": "@dataset().dir",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

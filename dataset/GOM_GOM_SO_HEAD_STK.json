@@ -1,0 +1,15 @@
+{
+	"name": "GOM_GOM_SO_HEAD_STK",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GOM",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"typeProperties": {
+			"tableName": "\"GOM\".\"GOM_SO_HEAD_STK\""
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

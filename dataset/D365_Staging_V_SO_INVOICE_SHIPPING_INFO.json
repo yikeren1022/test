@@ -1,0 +1,88 @@
+{
+	"name": "D365_Staging_V_SO_INVOICE_SHIPPING_INFO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "D365_Staging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DATAAREAID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INVOICEID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INVOICEACCOUNT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SHIPPINGCARRIERCODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TRACKINGNUMBER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MASTERAIRWAYBILLNUMBER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "HOUSEAIRWAYBILLNUMBER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLIGHTNUMBER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DEPARTINGFLIGHTNUMBER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VESSELNAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOTE1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOTE2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOTE3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOTE4",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOTE5",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONV_ESTIMATEDARRIVALDATE",
+				"type": "date"
+			},
+			{
+				"name": "SYNCSTARTDATETIME",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "V_SO_INVOICE_SHIPPING_INFO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

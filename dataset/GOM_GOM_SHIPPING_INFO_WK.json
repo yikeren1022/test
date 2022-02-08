@@ -1,0 +1,15 @@
+{
+	"name": "GOM_GOM_SHIPPING_INFO_WK",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GOM",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"typeProperties": {
+			"tableName": "\"GOM\".\"GOM_SHIPPING_INFO_WK\""
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

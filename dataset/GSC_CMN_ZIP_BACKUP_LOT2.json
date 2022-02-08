@@ -1,0 +1,33 @@
+{
+	"name": "GSC_CMN_ZIP_BACKUP_LOT2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GSC",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"backup_path": {
+				"type": "string"
+			},
+			"backup_file": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlob",
+		"typeProperties": {
+			"compression": {
+				"type": "ZipDeflate"
+			},
+			"fileName": {
+				"value": "@dataset().backup_file",
+				"type": "Expression"
+			},
+			"folderPath": {
+				"value": "sharebox/@{dataset().backup_path}",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

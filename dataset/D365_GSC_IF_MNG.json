@@ -1,0 +1,35 @@
+{
+	"name": "D365_GSC_IF_MNG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "D365_Staging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DATAAREAID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FUNCTION_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CPRT_DT",
+				"type": "date"
+			},
+			{
+				"name": "OVERLAP_TIME",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"tableName": "[dbo].[GSC_IF_MNG]"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

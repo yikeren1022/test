@@ -1,0 +1,246 @@
+{
+	"name": "TEMPFILE_COPY_TO_GATEWAYSERVER_LOT2",
+	"properties": {
+		"activities": [
+			{
+				"name": "TEMPFILE_COPY_TO_GATEWAYSERVER",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Switch_Exe_Status",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BlobSource",
+						"recursive": false
+					},
+					"sink": {
+						"type": "FileSystemSink"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "GSC_TEMPLATE_FILE",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileName": {
+								"value": "@replace(variables('fileName'), '''', '')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "GATEWAYSERVER_LOT2",
+						"type": "DatasetReference",
+						"parameters": {
+							"dir": {
+								"value": "@concat(\n    pipeline().parameters.sysFromTo\n    , '/'\n    , pipeline().parameters.targetDirGw\n    , '/'\n    , pipeline().parameters.programId\n)",
+								"type": "Expression"
+							},
+							"file": {
+								"value": "@concat(\n    if(empty(pipeline().parameters.pipelineId), pipeline().parameters.programId, pipeline().parameters.pipelineId)\n    ,if(empty(pipeline().parameters.DATAAREAID), '', concat('_', pipeline().parameters.DATAAREAID))\n    ,'_finished'\n)",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Set_Normal_File_Name",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Normal_File_Name",
+					"value": {
+						"value": "@replace('EndDetectionFile', '''', '')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set_Warning_File_Name",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Warning_File_Name",
+					"value": {
+						"value": "@replace('EndDetectionFile_Warning', '''', '')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set_Failed_File_Name",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Failed_File_Name",
+					"value": {
+						"value": "@replace('EndDetectionFile_Failed', '''', '')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Switch_Exe_Status",
+				"type": "Switch",
+				"dependsOn": [
+					{
+						"activity": "Set_Normal_File_Name",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set_Warning_File_Name",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set_Failed_File_Name",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@pipeline().parameters.Exe_Status",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "0",
+							"activities": [
+								{
+									"name": "Set_Normal",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "FileName",
+										"value": {
+											"value": "@{variables('Normal_File_Name')}",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "4",
+							"activities": [
+								{
+									"name": "Set_Warning",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "FileName",
+										"value": {
+											"value": "@{variables('Warning_File_Name')}",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "8",
+							"activities": [
+								{
+									"name": "Set_Failed",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "FileName",
+										"value": {
+											"value": "@{variables('Failed_File_Name')}",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					],
+					"defaultActivities": [
+						{
+							"name": "Set_FailedOther",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "FileName",
+								"value": {
+									"value": "@{variables('Failed_File_Name')}",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"programId": {
+				"type": "string"
+			},
+			"DATAAREAID": {
+				"type": "string"
+			},
+			"Exe_Status": {
+				"type": "string"
+			},
+			"sysFromTo": {
+				"type": "string"
+			},
+			"targetDirGw": {
+				"type": "string"
+			},
+			"pipelineId": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"Normal_File_Name": {
+				"type": "String"
+			},
+			"Warning_File_Name": {
+				"type": "String"
+			},
+			"Failed_File_Name": {
+				"type": "String"
+			},
+			"FileName": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "GSC/src/cmn"
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-09-30T17:22:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

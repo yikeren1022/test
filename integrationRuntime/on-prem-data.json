@@ -1,0 +1,7 @@
+{
+	"name": "on-prem-data",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "selfhosted IR description"
+	}
+}

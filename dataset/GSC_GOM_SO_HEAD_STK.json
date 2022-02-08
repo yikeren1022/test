@@ -1,0 +1,266 @@
+{
+	"name": "GSC_GOM_SO_HEAD_STK",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GSC",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"DATAAREAID": {
+				"type": "string"
+			},
+			"programId": {
+				"type": "string"
+			},
+			"sysFromTo": {
+				"type": "string"
+			},
+			"targetDir": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlob",
+		"structure": [
+			{
+				"name": "TP_CD"
+			},
+			{
+				"name": "ORDER_NO"
+			},
+			{
+				"name": "CREATED_DATE"
+			},
+			{
+				"name": "CREATED_USER"
+			},
+			{
+				"name": "CREATED_PROGRAM"
+			},
+			{
+				"name": "LAST_EDITED"
+			},
+			{
+				"name": "LAST_USER"
+			},
+			{
+				"name": "LAST_PROGRAM"
+			},
+			{
+				"name": "VERSION_EX_KEY"
+			},
+			{
+				"name": "ORDER_RCPT_HEAD_ID",
+				"type": "Int64"
+			},
+			{
+				"name": "CSTMR_CD"
+			},
+			{
+				"name": "OFC_CD"
+			},
+			{
+				"name": "ORDER_TP"
+			},
+			{
+				"name": "PRMT_CNT"
+			},
+			{
+				"name": "ITM_CNT"
+			},
+			{
+				"name": "CNSGN_SPLY_SITE"
+			},
+			{
+				"name": "BILL_ADDR_CD"
+			},
+			{
+				"name": "CSTMR_ORDER_NO"
+			},
+			{
+				"name": "CSTMR_REQ_NM"
+			},
+			{
+				"name": "CSTMR_REQ_ID"
+			},
+			{
+				"name": "JV_CD"
+			},
+			{
+				"name": "MDL_CD"
+			},
+			{
+				"name": "GOKI"
+			},
+			{
+				"name": "SHPM_SRVC_CLS"
+			},
+			{
+				"name": "MDI_CLS"
+			},
+			{
+				"name": "SPLIT_SHPM_CLS"
+			},
+			{
+				"name": "ALCT_YN_CLS"
+			},
+			{
+				"name": "ORDER_DT"
+			},
+			{
+				"name": "DSGN_DUE_DT"
+			},
+			{
+				"name": "PRTS_EACH_DSCNT_APPLY_CLS"
+			},
+			{
+				"name": "SPCL_DSCNT_RT",
+				"type": "Double"
+			},
+			{
+				"name": "MIN_CHRG",
+				"type": "Double"
+			},
+			{
+				"name": "PAY_MTHD"
+			},
+			{
+				"name": "PAY_LMT"
+			},
+			{
+				"name": "CNTRC_CURR_CD"
+			},
+			{
+				"name": "CNTRC_RT",
+				"type": "Double"
+			},
+			{
+				"name": "INTRNL_RT",
+				"type": "Double"
+			},
+			{
+				"name": "SND_CNDT"
+			},
+			{
+				"name": "SND_LCTN"
+			},
+			{
+				"name": "DSTNT_PORT"
+			},
+			{
+				"name": "SAME_PACK_YN_CLS"
+			},
+			{
+				"name": "PRC_AMT_APPLY_CLS"
+			},
+			{
+				"name": "SRCHRG_RT",
+				"type": "Double"
+			},
+			{
+				"name": "ORDER_SHT_CRT_CNT"
+			},
+			{
+				"name": "ORDER_CNT"
+			},
+			{
+				"name": "ORDER_AMT",
+				"type": "Double"
+			},
+			{
+				"name": "WIP_CNT"
+			},
+			{
+				"name": "WIP_AMT",
+				"type": "Double"
+			},
+			{
+				"name": "SPCL_DSCNT_AMT",
+				"type": "Double"
+			},
+			{
+				"name": "VRUS_EXPNS",
+				"type": "Double"
+			},
+			{
+				"name": "SHIP_ADDR_CD",
+				"type": "Double"
+			},
+			{
+				"name": "TRSPT_VNDR_CD"
+			},
+			{
+				"name": "CMNT"
+			},
+			{
+				"name": "ORDER_PRSN"
+			},
+			{
+				"name": "DMSTC_EXP_CLS"
+			},
+			{
+				"name": "CSTMR_CNTRY_CD"
+			},
+			{
+				"name": "CSTMR_GRP_CD"
+			},
+			{
+				"name": "BRCH_CD"
+			},
+			{
+				"name": "DRCT_SHIP_CLS"
+			},
+			{
+				"name": "MAIL_NTF_SET_CLS"
+			},
+			{
+				"name": "PRC_CLS"
+			},
+			{
+				"name": "PAYM_TERM_CD"
+			},
+			{
+				"name": "NEBIKI_RITSU",
+				"type": "Double"
+			},
+			{
+				"name": "MRGN_RT",
+				"type": "Double"
+			},
+			{
+				"name": "KEIYAKU_RITSU",
+				"type": "Double"
+			},
+			{
+				"name": "PRC_AMT_APPLY_DT"
+			},
+			{
+				"name": "CMPL_DT"
+			},
+			{
+				"name": "EXP_DSTNT_PORT_CD"
+			},
+			{
+				"name": "EXP_AGCY_CD"
+			},
+			{
+				"name": "AGCY_DRCT_SHIP_CLS"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "setOfObjects"
+			},
+			"fileName": {
+				"value": "@{dataset().programId}_CNV_@{dataset().DATAAREAID}.json",
+				"type": "Expression"
+			},
+			"folderPath": {
+				"value": "sharebox/@{dataset().sysFromTo}/@{dataset().targetDir}/@{dataset().programId}",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

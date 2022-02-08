@@ -1,0 +1,17 @@
+{
+	"name": "D365_Staging_V_PO_LINE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "D365_Staging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "V_PO_LINE"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

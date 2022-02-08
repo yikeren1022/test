@@ -1,0 +1,34 @@
+{
+	"name": "GSC_CMN_BLOB_INOUT_JSON_ARRAY",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GSC",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"dir": {
+				"type": "string"
+			},
+			"file": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlob",
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "arrayOfObjects"
+			},
+			"fileName": {
+				"value": "@dataset().file",
+				"type": "Expression"
+			},
+			"folderPath": {
+				"value": "sharebox/@{dataset().dir}",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

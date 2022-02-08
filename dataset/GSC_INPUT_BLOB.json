@@ -1,0 +1,40 @@
+{
+	"name": "GSC_INPUT_BLOB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GSC",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"programId": {
+				"type": "string"
+			},
+			"DATAAREAID": {
+				"type": "string"
+			},
+			"sysFromTo": {
+				"type": "string"
+			},
+			"targetDir": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlob",
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "arrayOfObjects"
+			},
+			"fileName": {
+				"value": "@{dataset().programId}_@{dataset().DATAAREAID}.json",
+				"type": "Expression"
+			},
+			"folderPath": {
+				"value": "sharebox/@{dataset().sysFromTo}/@{dataset().targetDir}/@{dataset().programId}",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

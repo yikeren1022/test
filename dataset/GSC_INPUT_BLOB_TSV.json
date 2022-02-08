@@ -1,0 +1,53 @@
+{
+	"name": "GSC_INPUT_BLOB_TSV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GSC",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"dir": {
+				"type": "string"
+			},
+			"file": {
+				"type": "string"
+			},
+			"optionSkipCount": {
+				"type": "int",
+				"defaultValue": 0
+			},
+			"optionColNmFirstRow": {
+				"type": "bool",
+				"defaultValue": false
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlob",
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": "\t",
+				"rowDelimiter": "",
+				"nullValue": "",
+				"treatEmptyAsNull": false,
+				"skipLineCount": {
+					"value": "@dataset().optionSkipCount",
+					"type": "Expression"
+				},
+				"firstRowAsHeader": {
+					"value": "@dataset().optionColNmFirstRow",
+					"type": "Expression"
+				}
+			},
+			"fileName": {
+				"value": "@dataset().file",
+				"type": "Expression"
+			},
+			"folderPath": {
+				"value": "sharebox/@{dataset().dir}",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

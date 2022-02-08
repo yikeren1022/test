@@ -1,0 +1,15 @@
+{
+	"name": "GOM_GOM_PO_LINE_STK",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GOM",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"typeProperties": {
+			"tableName": "\"GOM\".\"GOM_PO_LINE_STK\""
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

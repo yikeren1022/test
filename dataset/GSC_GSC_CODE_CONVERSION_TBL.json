@@ -1,0 +1,134 @@
+{
+	"name": "GSC_GSC_CODE_CONVERSION_TBL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "D365_Staging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SYSTEM1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SYSTEM2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_TP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TP_CD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SYSTEM1_CD_VAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SYSTEM2_CD_VAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CREATED_DATE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CREATED_USER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CREATED_PROGRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LAST_EDITED",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LAST_USER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LAST_PROGRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VERSION_EX_KEY",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_4",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_5",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_6",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_7",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_8",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_9",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_10",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_11",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_12",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_13",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_14",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SBRDNT_ITM_VAL_15",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"tableName": "[dbo].[GSC_CODE_CONVERSION_TBL]"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

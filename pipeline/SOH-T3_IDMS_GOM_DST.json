@@ -1,0 +1,1168 @@
+{
+	"name": "SOH-T3_IDMS_GOM_DST",
+	"properties": {
+		"description": "################################################################################\n### Project             : GSC Lot1\n### Category          : GSC\n### Function name : SOH-T3_IDMS_GOM\n### Pipeline name  : SOH-T3_IDMS_GOM_DST\n### Version             : 1.0\n### Description       : Insert SO Head information into the Worktable\n################################################################################\n### Change history\n################################################################################\n### Version             : 1.0\n### Date                 : 2019/09/10\n### Modified by     : HCM Iwasaki\n### Description      : Create New\n################################################################################",
+		"activities": [
+			{
+				"name": "Get_outPutFile_Size",
+				"type": "GetMetadata",
+				"dependsOn": [
+					{
+						"activity": "Select_V_SO_HEAD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "GSC_INPUT_BLOB",
+						"type": "DatasetReference",
+						"parameters": {
+							"programId": {
+								"value": "@variables('programId')",
+								"type": "Expression"
+							},
+							"DATAAREAID": {
+								"value": "@variables('DATAAREAID')",
+								"type": "Expression"
+							},
+							"sysFromTo": {
+								"value": "@variables('sysFromTo')",
+								"type": "Expression"
+							},
+							"targetDir": {
+								"value": "@variables('targetDir')",
+								"type": "Expression"
+							}
+						}
+					},
+					"fieldList": [
+						"columnCount"
+					]
+				}
+			},
+			{
+				"name": "Check_File_Size",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Get_outPutFile_Size",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@not(equals(activity('Get_outPutFile_Size').output.columnCount, 0))",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Exe_Status",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Exe_Status",
+								"value": {
+									"value": "1",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Convert_SO_Head",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/GSC/src/IDMS_GOM/SOH-T3_IDMS_GOM",
+								"baseParameters": {
+									"DATAAREAID": {
+										"value": "@variables('DATAAREAID')",
+										"type": "Expression"
+									},
+									"programId": {
+										"value": "@variables('programId')",
+										"type": "Expression"
+									},
+									"sysFromTo": {
+										"value": "@variables('sysFromTo')",
+										"type": "Expression"
+									},
+									"targetDir": {
+										"value": "@variables('targetDir')",
+										"type": "Expression"
+									},
+									"sysDate": {
+										"value": "@formatDateTime(pipeline().TriggerTime, 'yyyyMMddHHmmss')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ProductionGSC",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Get_Exe_Status",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Convert_SO_Head",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BlobSource",
+									"recursive": true
+								},
+								"dataset": {
+									"referenceName": "GSC_Convert_Status",
+									"type": "DatasetReference",
+									"parameters": {
+										"programId": {
+											"value": "@variables('programId')",
+											"type": "Expression"
+										},
+										"DATAAREAID": {
+											"value": "@variables('DATAAREAID')",
+											"type": "Expression"
+										},
+										"sysFromTo": {
+											"value": "@variables('sysFromTo')",
+											"type": "Expression"
+										},
+										"targetDir": {
+											"value": "@variables('targetDir')",
+											"type": "Expression"
+										}
+									}
+								}
+							}
+						},
+						{
+							"name": "Set_Exe_Status",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Get_Exe_Status",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Exe_Status",
+								"value": {
+									"value": "@string(activity('Get_Exe_Status').output.firstRow.statusCd)",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Delete_Status_File",
+							"type": "Delete",
+							"dependsOn": [
+								{
+									"activity": "Set_Exe_Status",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "GSC_Convert_Status",
+									"type": "DatasetReference",
+									"parameters": {
+										"programId": {
+											"value": "@variables('programId')",
+											"type": "Expression"
+										},
+										"DATAAREAID": {
+											"value": "@variables('DATAAREAID')",
+											"type": "Expression"
+										},
+										"sysFromTo": {
+											"value": "@variables('sysFromTo')",
+											"type": "Expression"
+										},
+										"targetDir": {
+											"value": "@variables('targetDir')",
+											"type": "Expression"
+										}
+									}
+								},
+								"enableLogging": false
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Execute_TEMPFILE_COPY_TO_GATEWAYSERVER1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Select_V_SO_HEAD",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TEMPFILE_COPY_TO_GATEWAYSERVER",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"programId": {
+							"value": "@variables('programId')",
+							"type": "Expression"
+						},
+						"DATAAREAID": {
+							"value": "@variables('DATAAREAID')",
+							"type": "Expression"
+						},
+						"Exe_Status": {
+							"value": "@variables('Error_Code')",
+							"type": "Expression"
+						},
+						"sysFromTo": {
+							"value": "@variables('sysFromTo')",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Set_DATAAREAID",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "DATAAREAID",
+					"value": {
+						"value": "@replace(pipeline().parameters.DATAAREAID, '''', '')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set_programId",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "programId",
+					"value": {
+						"value": "@replace('SOH-T3_IDMS_GOM', '''', '')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set_sysFromTo",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "sysFromTo",
+					"value": {
+						"value": "@replace('IDMS_GOM', '''', '')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set_targetDir",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "targetDir",
+					"value": {
+						"value": "@replace('files', '''', '')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "CASE_NORMAL",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Check_File_Size",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(variables('Exe_Status'), '0')",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Create_GOM_SO_HEAD_STK1",
+							"description": "",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Get_TP_CD1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BlobSource",
+									"recursive": true
+								},
+								"sink": {
+									"type": "OracleSink",
+									"writeBatchSize": 100000,
+									"preCopyScript": {
+										"value": "delete from GOM_SO_HEAD_STK where TP_CD = '@{activity('GET_TP_CD1').output.firstRow.TP_CD}'",
+										"type": "Expression"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "GSC_GOM_SO_HEAD_STK",
+									"type": "DatasetReference",
+									"parameters": {
+										"DATAAREAID": {
+											"value": "@variables('DATAAREAID')",
+											"type": "Expression"
+										},
+										"programId": {
+											"value": "@variables('programId')",
+											"type": "Expression"
+										},
+										"sysFromTo": {
+											"value": "@variables('sysFromTo')",
+											"type": "Expression"
+										},
+										"targetDir": {
+											"value": "@variables('targetDir')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "GOM_GOM_SO_HEAD_STK",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Get_TP_CD1",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BlobSource",
+									"recursive": true
+								},
+								"dataset": {
+									"referenceName": "GSC_GOM_SO_HEAD_STK",
+									"type": "DatasetReference",
+									"parameters": {
+										"DATAAREAID": {
+											"value": "@variables('DATAAREAID')",
+											"type": "Expression"
+										},
+										"programId": {
+											"value": "@variables('programId')",
+											"type": "Expression"
+										},
+										"sysFromTo": {
+											"value": "@variables('sysFromTo')",
+											"type": "Expression"
+										},
+										"targetDir": {
+											"value": "@variables('targetDir')",
+											"type": "Expression"
+										}
+									}
+								}
+							}
+						},
+						{
+							"name": "Update_GSC_IF_MNG1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Create_GOM_SO_HEAD_STK1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BlobSource",
+									"recursive": true
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"writeBatchSize": 100000,
+									"preCopyScript": {
+										"value": "update GSC_IF_MNG set\n    GSC_IF_MNG.CPRT_DTTM = CONVERT(DateTime, '@{variables('sysDate')}' )\nwhere\n    GSC_IF_MNG.DATAAREAID = '@{variables('DATAAREAID')}'\nand\n    GSC_IF_MNG.FUNCTION_NAME = '@{variables('programId')}'",
+										"type": "Expression"
+									},
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "GSC_DUMMY_JSON_FILE",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "D365_GSC_IF_MNG",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Execute_CMN_FILE_BACKUP1",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Update_GSC_IF_MNG1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "pipeline4",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"programId": {
+										"value": "@variables('programId')",
+										"type": "Expression"
+									},
+									"DATAAREAID": {
+										"value": "@variables('DATAAREAID')",
+										"type": "Expression"
+									},
+									"sysFromTo": {
+										"value": "@variables('sysFromTo')",
+										"type": "Expression"
+									},
+									"targetDir": {
+										"value": "@variables('targetDir')",
+										"type": "Expression"
+									},
+									"backupDate": {
+										"value": "@pipeline().TriggerTime",
+										"type": "Expression"
+									},
+									"Exe_Status": {
+										"value": "@variables('Exe_Status')",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Set_sysDate",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "sysDate",
+					"value": {
+						"value": "@formatDateTime(pipeline().TriggerTime, 'yyyy-MM-dd HH:mm:ss')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set_Error_Code",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Error_Code",
+					"value": {
+						"value": "8",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Select_V_SO_HEAD",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Set_Error_Code",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set_sysDate",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set_targetDir",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set_sysFromTo",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set_programId",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set_DATAAREAID",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set_Normal_Code",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "-- 変数宣言\nDECLARE @CPRT_DTTM       DATETIME;\nDECLARE @OVERLAP_TIME  INT;\n--\nselect\n     @CPRT_DTTM      = GSC_IF_MNG.CPRT_DTTM\n    ,@OVERLAP_TIME = GSC_IF_MNG.OVERLAP_TIME\nfrom\n    GSC_IF_MNG\nwhere\n    GSC_IF_MNG.DATAAREAID = '@{variables('DATAAREAID')}'\nand\n    GSC_IF_MNG.FUNCTION_NAME = '@{variables('programId')}'\n;\n\nSELECT\n     V_SO_HEAD.DATAAREAID                               AS TP_CD\n   , V_SO_HEAD.SALESORDERNUMBER                         AS ORDER_NO\n   , SYSUTCDATETIME()                                   AS CREATED_DATE\n   , 'GSC'                                              AS CREATED_USER\n   , '@{variables('programID')}'                        AS CREATED_PROGRAM\n   , SYSUTCDATETIME()                                   AS LAST_EDITED\n   , 'GSC'                                              AS LAST_USER\n   , '@{variables('programID')}'                        AS LAST_PROGRAM\n   , 0                                                  AS VERSION_EX_KEY\n   , V_SO_HEAD.IGTORDERRECEIPTHEADERID                  AS ORDER_RCPT_HEAD_ID\n   , V_SO_HEAD.ORDERINGCUSTOMERACCOUNTNUMBER            AS CSTMR_CD\n   , V_SO_HEAD.SALESORDERPOOLID                         AS ORDER_TP\n   , V_SO_HEAD.INVOICECUSTOMERACCOUNTNUMBER             AS BILL_ADDR_CD\n   , V_SO_HEAD.CUSTOMERSORDERREFERENCE                  AS CSTMR_ORDER_NO\n   , V_SO_HEAD.CUSTOMERREQUISITIONNUMBER                AS CSTMR_REQ_NM\n   , V_SO_HEAD.SOH_JV_CD                                AS JV_CD\n   , V_SO_HEAD.SOH_MDL_CD                               AS MDL_CD\n   , V_SO_HEAD.SOH_GOKI                                 AS GOKI\n   , V_SO_HEAD.TRANSPORTATIONMETHODID                   AS SHPM_SRVC_CLS\n   , CASE WHEN V_SO_HEAD.IGTCOMPLETE IS NULL THEN NULL ELSE CONVERT(VARCHAR(10), V_SO_HEAD.IGTCOMPLETE) END AS SPLIT_SHPM_CLS\n   , V_SO_HEAD.IGTORDERDATE                    AS ORDER_DT\n   , V_SO_HEAD.REQUESTEDSHIPPINGDATE                    AS DSGN_DUE_DT\n   , V_SO_HEAD.CURRENCYCODE                             AS CNTRC_CURR_CD\n   , V_SO_HEAD.IGTCONTRACTRATE                          AS CNTRC_RT\n   , CONVERT(nvarchar, V_SO_HEAD.IGTSHIPTOCODE )        AS SHIP_ADDR_CD\n   , V_SO_HEAD.SHIPPINGCARRIERID                        AS TRSPT_VNDR_CD\n   , V_SO_HEAD.IGTCOMMENTS                              AS CMNT\n   , V_SO_HEAD.NAME                                     AS ORDER_PRSN\n   , V_SO_HEAD.CUSTCLASSIFICATIONID                     AS CSTMR_GRP_CD\n   , CASE WHEN V_SO_HEAD.INTERCOMPANYDIRECTDELIVERY IS NULL THEN NULL ELSE CONVERT(VARCHAR(10), V_SO_HEAD.INTERCOMPANYDIRECTDELIVERY) END AS DRCT_SHIP_CLS\nFROM\n    V_SO_HEAD\nWHERE\n    V_SO_HEAD.DATAAREAID = '@{variables('DATAAREAID')}'\nAND \n    ( @CPRT_DTTM IS NULL OR @CPRT_DTTM IS NOT NULL\n      AND (    V_SO_HEAD.SOH_SYNCSTARTDATETIME BETWEEN DATEADD(second, -(@OVERLAP_TIME), @CPRT_DTTM) AND CONVERT(DateTime, '@{variables('sysDate')}')\n            OR V_SO_HEAD.CST_SYNCSTARTDATETIME BETWEEN DATEADD(second, -(@OVERLAP_TIME), @CPRT_DTTM) AND CONVERT(DateTime, '@{variables('sysDate')}')\n            OR V_SO_HEAD.TSC_SYNCSTARTDATETIME BETWEEN DATEADD(second, -(@OVERLAP_TIME), @CPRT_DTTM) AND CONVERT(DateTime, '@{variables('sysDate')}')\n          )\n    );",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "BlobSink"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "D365_Staging_V_SO_HEAD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "GSC_INPUT_BLOB",
+						"type": "DatasetReference",
+						"parameters": {
+							"programId": {
+								"value": "@variables('programId')",
+								"type": "Expression"
+							},
+							"DATAAREAID": {
+								"value": "@variables('DATAAREAID')",
+								"type": "Expression"
+							},
+							"sysFromTo": {
+								"value": "@variables('sysFromTo')",
+								"type": "Expression"
+							},
+							"targetDir": {
+								"value": "@variables('targetDir')",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Set_Normal_Code",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Normal_Code",
+					"value": {
+						"value": "0",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "CASE_NO_RECORD_FOUND",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "CASE_NORMAL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(variables('Exe_Status'), '1')",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Execute_CMN_FILE_BACKUP2",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Update_GSC_IF_MNG2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "pipeline4",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"programId": {
+										"value": "@variables('programId')",
+										"type": "Expression"
+									},
+									"DATAAREAID": {
+										"value": "@variables('DATAAREAID')",
+										"type": "Expression"
+									},
+									"sysFromTo": {
+										"value": "@variables('sysFromTo')",
+										"type": "Expression"
+									},
+									"targetDir": {
+										"value": "@variables('targetDir')",
+										"type": "Expression"
+									},
+									"backupDate": {
+										"value": "@pipeline().TriggerTime",
+										"type": "Expression"
+									},
+									"Exe_Status": {
+										"value": "@variables('Normal_Code')",
+										"type": "Expression"
+									}
+								}
+							}
+						},
+						{
+							"name": "Delete_GOM_SO_HEAD_STK1",
+							"description": "",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Get_TP_CD2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BlobSource",
+									"recursive": true
+								},
+								"sink": {
+									"type": "OracleSink",
+									"writeBatchSize": 100000,
+									"preCopyScript": {
+										"value": "delete from GOM_SO_HEAD_STK where TP_CD = '@{activity('GET_TP_CD2').output.firstRow.SYSTEM2_CD_VAL}'",
+										"type": "Expression"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "GSC_DUMMY_JSON_FILE",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "GOM_GOM_SO_HEAD_STK",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Get_TP_CD2",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "select SYSTEM2_CD_VAL from GSC_CODE_CONVERSION_TBL where CD_TP = 'TP_CD' and TP_CD = 'GSC' and SYSTEM1_CD_VAL = '@{variables('DATAAREAID')}' and SYSTEM1 = '@{split(variables('sysFromTo'), '_' )[0]}' and SYSTEM2 = '@{split(variables('sysFromTo'), '_' )[1]}'",
+										"type": "Expression"
+									},
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "GSC_GSC_CODE_CONVERSION_TBL",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "Update_GSC_IF_MNG2",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Delete_GOM_SO_HEAD_STK1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BlobSource",
+									"recursive": true
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"writeBatchSize": 100000,
+									"preCopyScript": {
+										"value": "update GSC_IF_MNG set\n    GSC_IF_MNG.CPRT_DTTM = CONVERT(DateTime, '@{variables('sysDate')}' )\nwhere\n    GSC_IF_MNG.DATAAREAID = '@{variables('DATAAREAID')}'\nand\n    GSC_IF_MNG.FUNCTION_NAME = '@{variables('programId')}'",
+										"type": "Expression"
+									},
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "GSC_DUMMY_JSON_FILE",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "D365_GSC_IF_MNG",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "CASE_OTHER",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "CASE_NO_RECORD_FOUND",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@not(or(equals(variables('Exe_Status'), '0'), equals(variables('Exe_Status'), '1')))",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Execute_CMN_FILE_BACKUP3",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "pipeline4",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"programId": {
+										"value": "@variables('programId')",
+										"type": "Expression"
+									},
+									"DATAAREAID": {
+										"value": "@variables('DATAAREAID')",
+										"type": "Expression"
+									},
+									"sysFromTo": {
+										"value": "@variables('sysFromTo')",
+										"type": "Expression"
+									},
+									"targetDir": {
+										"value": "@variables('targetDir')",
+										"type": "Expression"
+									},
+									"backupDate": {
+										"value": "@pipeline().TriggerTime",
+										"type": "Expression"
+									},
+									"Exe_Status": {
+										"value": "@variables('Exe_Status')",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Execute_CMN_FILE_BACKUP4",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Get_outPutFile_Size",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pipeline4",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"programId": {
+							"value": "@variables('programId')",
+							"type": "Expression"
+						},
+						"DATAAREAID": {
+							"value": "@variables('DATAAREAID')",
+							"type": "Expression"
+						},
+						"sysFromTo": {
+							"value": "@variables('sysFromTo')",
+							"type": "Expression"
+						},
+						"targetDir": {
+							"value": "@variables('targetDir')",
+							"type": "Expression"
+						},
+						"backupDate": {
+							"value": "@pipeline().TriggerTime",
+							"type": "Expression"
+						},
+						"Exe_Status": {
+							"value": "@variables('Error_Code')",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Execute_CMN_FILE_BACKUP5",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Check_File_Size",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pipeline4",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"programId": {
+							"value": "@variables('programId')",
+							"type": "Expression"
+						},
+						"DATAAREAID": {
+							"value": "@variables('DATAAREAID')",
+							"type": "Expression"
+						},
+						"sysFromTo": {
+							"value": "@variables('sysFromTo')",
+							"type": "Expression"
+						},
+						"targetDir": {
+							"value": "@variables('targetDir')",
+							"type": "Expression"
+						},
+						"backupDate": {
+							"value": "@pipeline().TriggerTime",
+							"type": "Expression"
+						},
+						"Exe_Status": {
+							"value": "@variables('Error_Code')",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Execute_CMN_FILE_BACKUP6",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "CASE_NORMAL",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pipeline4",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"programId": {
+							"value": "@variables('programId')",
+							"type": "Expression"
+						},
+						"DATAAREAID": {
+							"value": "@variables('DATAAREAID')",
+							"type": "Expression"
+						},
+						"sysFromTo": {
+							"value": "@variables('sysFromTo')",
+							"type": "Expression"
+						},
+						"targetDir": {
+							"value": "@variables('targetDir')",
+							"type": "Expression"
+						},
+						"backupDate": {
+							"value": "@pipeline().TriggerTime",
+							"type": "Expression"
+						},
+						"Exe_Status": {
+							"value": "@variables('Error_Code')",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Execute_CMN_FILE_BACKUP7",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "CASE_NO_RECORD_FOUND",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pipeline4",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"programId": {
+							"value": "@variables('programId')",
+							"type": "Expression"
+						},
+						"DATAAREAID": {
+							"value": "@variables('DATAAREAID')",
+							"type": "Expression"
+						},
+						"sysFromTo": {
+							"value": "@variables('sysFromTo')",
+							"type": "Expression"
+						},
+						"targetDir": {
+							"value": "@variables('targetDir')",
+							"type": "Expression"
+						},
+						"backupDate": {
+							"value": "@pipeline().TriggerTime",
+							"type": "Expression"
+						},
+						"Exe_Status": {
+							"value": "@variables('Error_Code')",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"DATAAREAID": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"programId": {
+				"type": "String"
+			},
+			"DATAAREAID": {
+				"type": "String"
+			},
+			"sysFromTo": {
+				"type": "String"
+			},
+			"targetDir": {
+				"type": "String"
+			},
+			"sysDate": {
+				"type": "String"
+			},
+			"Exe_Status": {
+				"type": "String"
+			},
+			"Error_Code": {
+				"type": "String"
+			},
+			"Normal_Code": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "GSC/src/IDMS_GOM"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-04-12T21:43:46Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,195 @@
+{
+	"name": "GSC_GOM_PO_LINE_STK",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GSC",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"DATAAREAID": {
+				"type": "string"
+			},
+			"programId": {
+				"type": "string"
+			},
+			"sysFromTo": {
+				"type": "string"
+			},
+			"targetDir": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlob",
+		"structure": [
+			{
+				"name": "TP_CD"
+			},
+			{
+				"name": "VNDR_CD"
+			},
+			{
+				"name": "ORDER_NO"
+			},
+			{
+				"name": "ITM_NO"
+			},
+			{
+				"name": "PO_LINE_NO"
+			},
+			{
+				"name": "CREATED_DATE"
+			},
+			{
+				"name": "CREATED_USER"
+			},
+			{
+				"name": "CREATED_PROGRAM"
+			},
+			{
+				"name": "LAST_EDITED"
+			},
+			{
+				"name": "LAST_USER"
+			},
+			{
+				"name": "LAST_PROGRAM"
+			},
+			{
+				"name": "VERSION_EX_KEY"
+			},
+			{
+				"name": "PO_ORDER_TP"
+			},
+			{
+				"name": "PO_PRTS_WH_CD"
+			},
+			{
+				"name": "PO_PRTS_NO"
+			},
+			{
+				"name": "PO_PRTS_JV_CD"
+			},
+			{
+				"name": "PO_PRTS_INV_CLS"
+			},
+			{
+				"name": "PO_QTY"
+			},
+			{
+				"name": "PO_UP_AMT",
+				"type": "Double"
+			},
+			{
+				"name": "PO_AMT",
+				"type": "Double"
+			},
+			{
+				"name": "PO_PRTS_NM"
+			},
+			{
+				"name": "VNDR_PRTS_NO"
+			},
+			{
+				"name": "VNDR_PRTS_NM_1"
+			},
+			{
+				"name": "VNDR_PRTS_NM_2"
+			},
+			{
+				"name": "UOM_CD"
+			},
+			{
+				"name": "UOM_QTY"
+			},
+			{
+				"name": "DSCNT_RT_1",
+				"type": "Double"
+			},
+			{
+				"name": "DSCNT_RT_2",
+				"type": "Double"
+			},
+			{
+				"name": "ARVL_GOODS_PRTS_SITE_CD"
+			},
+			{
+				"name": "ARVL_GOODS_PRTS_NO"
+			},
+			{
+				"name": "ARVL_GOODS_PRTS_JV_CD"
+			},
+			{
+				"name": "ARVL_GOODS_PRTS_INV_CLS"
+			},
+			{
+				"name": "ARVL_GOODS_QTY"
+			},
+			{
+				"name": "ARVL_GOODS_UP_AMT",
+				"type": "Double"
+			},
+			{
+				"name": "ARVL_GOODS_AMT",
+				"type": "Double"
+			},
+			{
+				"name": "PO_DT"
+			},
+			{
+				"name": "DSGN_DUE_DT"
+			},
+			{
+				"name": "VNDR_SHIP_PLN_DT"
+			},
+			{
+				"name": "WH_ARVL_PLN_DT"
+			},
+			{
+				"name": "ARVL_GOODS_DT"
+			},
+			{
+				"name": "SHIP_DT"
+			},
+			{
+				"name": "VNDR_INVC_NO"
+			},
+			{
+				"name": "CASE_BANGO"
+			},
+			{
+				"name": "PO_MV_CD"
+			},
+			{
+				"name": "PO_MV_DT"
+			},
+			{
+				"name": "PO_CL_QTY"
+			},
+			{
+				"name": "STK_QTY"
+			},
+			{
+				"name": "RCV_DFCT_QTY"
+			},
+			{
+				"name": "BACK_ORDER_CD"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "setOfObjects"
+			},
+			"fileName": {
+				"value": "@{dataset().programId}_CNV_@{dataset().DATAAREAID}.json",
+				"type": "Expression"
+			},
+			"folderPath": {
+				"value": "sharebox/@{dataset().sysFromTo}/@{dataset().targetDir}/@{dataset().programId}",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

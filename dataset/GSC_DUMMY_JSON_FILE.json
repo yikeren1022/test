@@ -1,0 +1,22 @@
+{
+	"name": "GSC_DUMMY_JSON_FILE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GSC",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureBlob",
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat"
+			},
+			"fileName": {
+				"value": "DummySource.json",
+				"type": "Expression"
+			},
+			"folderPath": "sharebox/template"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,105 @@
+{
+	"name": "GSC_GOM_SHIPPING_INFO_WK",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GSC",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"dir": {
+				"type": "string"
+			},
+			"file": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlob",
+		"structure": [
+			{
+				"name": "TP_CD"
+			},
+			{
+				"name": "INVC_NO"
+			},
+			{
+				"name": "CREATED_DATE"
+			},
+			{
+				"name": "CREATED_USER"
+			},
+			{
+				"name": "CREATED_PROGRAM"
+			},
+			{
+				"name": "LAST_EDITED"
+			},
+			{
+				"name": "LAST_USER"
+			},
+			{
+				"name": "LAST_PROGRAM"
+			},
+			{
+				"name": "VERSION_EX_KEY"
+			},
+			{
+				"name": "CSTMR_CD"
+			},
+			{
+				"name": "TRSPT_VNDR_CD"
+			},
+			{
+				"name": "TRSPT_VNDR_PRST_NO"
+			},
+			{
+				"name": "MAWB_NO"
+			},
+			{
+				"name": "HAWB_NO"
+			},
+			{
+				"name": "FLGT_NO_1"
+			},
+			{
+				"name": "FLGT_NO_2"
+			},
+			{
+				"name": "SHIP_NM"
+			},
+			{
+				"name": "SHIP_NOTE_1"
+			},
+			{
+				"name": "SHIP_NOTE_2"
+			},
+			{
+				"name": "SHIP_NOTE_3"
+			},
+			{
+				"name": "SHIP_NOTE_4"
+			},
+			{
+				"name": "SHIP_NOTE_5"
+			},
+			{
+				"name": "ARVL_PLN_DT"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "setOfObjects"
+			},
+			"fileName": {
+				"value": "@dataset().file",
+				"type": "Expression"
+			},
+			"folderPath": {
+				"value": "sharebox/@{dataset().dir}",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

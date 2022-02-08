@@ -1,0 +1,97 @@
+{
+	"name": "D365_Staging_V_SO_HEAD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "D365_Staging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DATAAREAID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CUSTOMERACCOUNT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORGANIZATIONNAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSSTREET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSCITY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSSTATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSCOUNTRYREGIONID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSZIPCODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INVOICEACCOUNT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADDRESSLOCATIONID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SALESTAXGROUP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SALESACCOUNTNUMBER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONSIGNMENTWAREHOUSE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CREDITLIMIT",
+				"type": "decimal",
+				"precision": 32,
+				"scale": 6
+			},
+			{
+				"name": "SALESCURRENCYCODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CST_SYNCSTARTDATETIME",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CSE_SYNCSTARTDATETIME",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CWH_SYNCSTARTDATETIME",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"tableName": "[dbo].[V_SO_HEAD]"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

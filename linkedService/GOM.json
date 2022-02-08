@@ -1,0 +1,16 @@
+{
+	"name": "GOM",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=co14scan11.dbaaS.intra.hitachi.co.jp;port=1521;servicename=v_hcm_prd_s_gom_srv.dbaaS.intra.hitachi.co.jp;user id=GOM;workarounds=537919488;enablebulkload=0;logintimeout=180;connectionretrycount=3;connectionretrydelay=2;batchfailurereturnserror=1",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3NjI3NWI5Mi0yMWVkLTRiYWEtYTJkNS00NGExZTZjYzA2MjMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "on-prem-data",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
