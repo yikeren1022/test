@@ -23,31 +23,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataset": {
-						"referenceName": "GSC_INPUT_BLOB",
-						"type": "DatasetReference",
-						"parameters": {
-							"programId": {
-								"value": "@variables('programId')",
-								"type": "Expression"
-							},
-							"DATAAREAID": {
-								"value": "@variables('DATAAREAID')",
-								"type": "Expression"
-							},
-							"sysFromTo": {
-								"value": "@variables('sysFromTo')",
-								"type": "Expression"
-							},
-							"targetDir": {
-								"value": "@variables('targetDir')",
-								"type": "Expression"
-							}
-						}
-					},
-					"fieldList": [
-						"columnCount"
-					]
+					"fieldList": []
 				}
 			},
 			{
@@ -119,10 +95,6 @@
 										"type": "Expression"
 									}
 								}
-							},
-							"linkedServiceName": {
-								"referenceName": "ProductionGSC",
-								"type": "LinkedServiceReference"
 							}
 						},
 						{
@@ -148,28 +120,6 @@
 								"source": {
 									"type": "BlobSource",
 									"recursive": true
-								},
-								"dataset": {
-									"referenceName": "GSC_Convert_Status",
-									"type": "DatasetReference",
-									"parameters": {
-										"programId": {
-											"value": "@variables('programId')",
-											"type": "Expression"
-										},
-										"DATAAREAID": {
-											"value": "@variables('DATAAREAID')",
-											"type": "Expression"
-										},
-										"sysFromTo": {
-											"value": "@variables('sysFromTo')",
-											"type": "Expression"
-										},
-										"targetDir": {
-											"value": "@variables('targetDir')",
-											"type": "Expression"
-										}
-									}
 								}
 							}
 						},
@@ -213,28 +163,6 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"dataset": {
-									"referenceName": "GSC_Convert_Status",
-									"type": "DatasetReference",
-									"parameters": {
-										"programId": {
-											"value": "@variables('programId')",
-											"type": "Expression"
-										},
-										"DATAAREAID": {
-											"value": "@variables('DATAAREAID')",
-											"type": "Expression"
-										},
-										"sysFromTo": {
-											"value": "@variables('sysFromTo')",
-											"type": "Expression"
-										},
-										"targetDir": {
-											"value": "@variables('targetDir')",
-											"type": "Expression"
-										}
-									}
-								},
 								"enableLogging": false
 							}
 						}
@@ -254,10 +182,6 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "TEMPFILE_COPY_TO_GATEWAYSERVER",
-						"type": "PipelineReference"
-					},
 					"waitOnCompletion": true,
 					"parameters": {
 						"programId": {
@@ -383,37 +307,7 @@
 									}
 								},
 								"enableStaging": false
-							},
-							"inputs": [
-								{
-									"referenceName": "GSC_GOM_PO_LINE_STK",
-									"type": "DatasetReference",
-									"parameters": {
-										"DATAAREAID": {
-											"value": "@variables('DATAAREAID')",
-											"type": "Expression"
-										},
-										"programId": {
-											"value": "@variables('programId')",
-											"type": "Expression"
-										},
-										"sysFromTo": {
-											"value": "@variables('sysFromTo')",
-											"type": "Expression"
-										},
-										"targetDir": {
-											"value": "@variables('targetDir')",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "GOM_GOM_PO_LINE_STK",
-									"type": "DatasetReference"
-								}
-							]
+							}
 						},
 						{
 							"name": "Get_TP_CD1",
@@ -431,28 +325,6 @@
 								"source": {
 									"type": "BlobSource",
 									"recursive": true
-								},
-								"dataset": {
-									"referenceName": "GSC_GOM_PO_LINE_STK",
-									"type": "DatasetReference",
-									"parameters": {
-										"DATAAREAID": {
-											"value": "@variables('DATAAREAID')",
-											"type": "Expression"
-										},
-										"programId": {
-											"value": "@variables('programId')",
-											"type": "Expression"
-										},
-										"sysFromTo": {
-											"value": "@variables('sysFromTo')",
-											"type": "Expression"
-										},
-										"targetDir": {
-											"value": "@variables('targetDir')",
-											"type": "Expression"
-										}
-									}
 								}
 							}
 						},
@@ -490,19 +362,7 @@
 									"disableMetricsCollection": false
 								},
 								"enableStaging": false
-							},
-							"inputs": [
-								{
-									"referenceName": "GSC_DUMMY_JSON_FILE",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "D365_GSC_IF_MNG",
-									"type": "DatasetReference"
-								}
-							]
+							}
 						},
 						{
 							"name": "Execute_CMN_FILE_BACKUP1",
@@ -643,41 +503,8 @@
 						},
 						"partitionOption": "None"
 					},
-					"sink": {
-						"type": "BlobSink"
-					},
 					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "D365_Staging_V_PO_LINE",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "GSC_INPUT_BLOB",
-						"type": "DatasetReference",
-						"parameters": {
-							"programId": {
-								"value": "@variables('programId')",
-								"type": "Expression"
-							},
-							"DATAAREAID": {
-								"value": "@variables('DATAAREAID')",
-								"type": "Expression"
-							},
-							"sysFromTo": {
-								"value": "@variables('sysFromTo')",
-								"type": "Expression"
-							},
-							"targetDir": {
-								"value": "@variables('targetDir')",
-								"type": "Expression"
-							}
-						}
-					}
-				]
+				}
 			},
 			{
 				"name": "Set_Normal_Code",
@@ -790,19 +617,7 @@
 									}
 								},
 								"enableStaging": false
-							},
-							"inputs": [
-								{
-									"referenceName": "GSC_DUMMY_JSON_FILE",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "GOM_GOM_PO_LINE_STK",
-									"type": "DatasetReference"
-								}
-							]
+							}
 						},
 						{
 							"name": "Get_TP_CD2",
@@ -824,10 +639,6 @@
 										"type": "Expression"
 									},
 									"partitionOption": "None"
-								},
-								"dataset": {
-									"referenceName": "GSC_GSC_CODE_CONVERSION_TBL",
-									"type": "DatasetReference"
 								}
 							}
 						},
@@ -865,19 +676,7 @@
 									"disableMetricsCollection": false
 								},
 								"enableStaging": false
-							},
-							"inputs": [
-								{
-									"referenceName": "GSC_DUMMY_JSON_FILE",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "D365_GSC_IF_MNG",
-									"type": "DatasetReference"
-								}
-							]
+							}
 						}
 					]
 				}

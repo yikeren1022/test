@@ -26,43 +26,8 @@
 						"type": "BlobSource",
 						"recursive": true
 					},
-					"sink": {
-						"type": "FileSystemSink"
-					},
 					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "GSC_TEMPLATE_FILE",
-						"type": "DatasetReference",
-						"parameters": {
-							"fileName": {
-								"value": "@replace(variables('fileName'), '''', '')",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "GATEWAYSERVER",
-						"type": "DatasetReference",
-						"parameters": {
-							"programId": {
-								"value": "@pipeline().parameters.programId",
-								"type": "Expression"
-							},
-							"DATAAREAID": {
-								"value": "@pipeline().parameters.DATAAREAID",
-								"type": "Expression"
-							},
-							"sysFromTo": {
-								"value": "@pipeline().parameters.sysFromTo",
-								"type": "Expression"
-							}
-						}
-					}
-				]
+				}
 			},
 			{
 				"name": "Check_Status_Failed",

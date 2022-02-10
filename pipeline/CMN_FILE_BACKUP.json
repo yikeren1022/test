@@ -26,63 +26,8 @@
 						"type": "BlobSource",
 						"recursive": true
 					},
-					"sink": {
-						"type": "BlobSink"
-					},
 					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "GSC_CMN_FILE_BACKUP",
-						"type": "DatasetReference",
-						"parameters": {
-							"programId": {
-								"value": "@pipeline().parameters.programId",
-								"type": "Expression"
-							},
-							"DATAAREAID": {
-								"value": "@pipeline().parameters.DATAAREAID",
-								"type": "Expression"
-							},
-							"sysFromTo": {
-								"value": "@pipeline().parameters.sysFromTo",
-								"type": "Expression"
-							},
-							"targetDir": {
-								"value": "@pipeline().parameters.targetDir",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "GSC_CMN_ZIP_BACKUP",
-						"type": "DatasetReference",
-						"parameters": {
-							"programId": {
-								"value": "@pipeline().parameters.programId",
-								"type": "Expression"
-							},
-							"DATAAREAID": {
-								"value": "@pipeline().parameters.DATAAREAID",
-								"type": "Expression"
-							},
-							"sysFromTo": {
-								"value": "@pipeline().parameters.sysFromTo",
-								"type": "Expression"
-							},
-							"targetDir": {
-								"value": "@pipeline().parameters.targetDir",
-								"type": "Expression"
-							},
-							"backupDate": {
-								"value": "@pipeline().parameters.backupDate",
-								"type": "Expression"
-							}
-						}
-					}
-				]
+				}
 			},
 			{
 				"name": "CMN_FILE_DELETE",
@@ -104,28 +49,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataset": {
-						"referenceName": "GSC_CMN_FILE_BACKUP",
-						"type": "DatasetReference",
-						"parameters": {
-							"programId": {
-								"value": "@pipeline().parameters.programId",
-								"type": "Expression"
-							},
-							"DATAAREAID": {
-								"value": "@pipeline().parameters.DATAAREAID",
-								"type": "Expression"
-							},
-							"sysFromTo": {
-								"value": "@pipeline().parameters.sysFromTo",
-								"type": "Expression"
-							},
-							"targetDir": {
-								"value": "@pipeline().parameters.targetDir",
-								"type": "Expression"
-							}
-						}
-					},
 					"enableLogging": false
 				}
 			},
@@ -143,10 +66,6 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "TEMPFILE_COPY_TO_GATEWAYSERVER",
-						"type": "PipelineReference"
-					},
 					"waitOnCompletion": true,
 					"parameters": {
 						"programId": {
@@ -181,10 +100,6 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "TEMPFILE_COPY_TO_GATEWAYSERVER",
-						"type": "PipelineReference"
-					},
 					"waitOnCompletion": true,
 					"parameters": {
 						"programId": {
