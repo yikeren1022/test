@@ -1,0 +1,32 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sample_csv",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "json.json",
+				"container": "sample"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"aaa": {
+					"type": "string"
+				},
+				"ccc": {
+					"type": "string"
+				},
+				"eee": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
