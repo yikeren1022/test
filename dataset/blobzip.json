@@ -1,0 +1,26 @@
+{
+	"name": "blobzip",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage6",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "sample4.zip",
+				"container": "zip"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"type": "String"
+			}
+		]
+	}
+}

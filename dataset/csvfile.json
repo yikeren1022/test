@@ -1,0 +1,21 @@
+{
+	"name": "csvfile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage6",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
