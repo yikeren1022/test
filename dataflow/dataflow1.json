@@ -21,12 +21,18 @@
 					"name": "sink1"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "test1"
+				}
+			],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 sink(allowSchemaDrift: true,",
+				"     ignoreNoFilesFound: false,",
+				"     rowUrlColumn: 'File_Name') ~> source1",
+				"source1 derive(File_Name = concat('data_',substring(File_Name,2,10),'_',split(File_Name,'-')[5])) ~> test1",
+				"test1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          Column_1 as string,",
@@ -34,7 +40,7 @@
 				"          Column_3 as string,",
 				"          Column_4 as string",
 				"     ),",
-				"     partitionFileNames:['\"test\"'],",
+				"     rowUrlColumn:'File_Name',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     partitionBy('hash', 1)) ~> sink1"
