@@ -45,11 +45,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "activity('['Get Metadata1']').output.childItems",
+						"value": "@activity('Get Metadata1').output.childItems",
 						"type": "Expression"
 					},
 					"condition": {
-						"value": "contains(item().name, '242'] ",
+						"value": "@contains(item().name, '242')",
 						"type": "Expression"
 					}
 				}
@@ -68,7 +68,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "Expression：@greater(activity('Filter名').output.FilteredItemsCount,0)",
+						"value": "@greater(activity('Filter1').output.FilteredItemsCount,0)",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
@@ -76,7 +76,11 @@
 							"name": "Set variable1",
 							"type": "SetVariable",
 							"dependsOn": [],
-							"userProperties": []
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "var",
+								"value": "aaa"
+							}
 						}
 					],
 					"ifTrueActivities": [
@@ -143,6 +147,11 @@
 				}
 			}
 		],
+		"variables": {
+			"var": {
+				"type": "Boolean"
+			}
+		},
 		"annotations": []
 	}
 }
