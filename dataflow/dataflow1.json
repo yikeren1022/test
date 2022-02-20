@@ -34,8 +34,10 @@
 				"          Column_3 as string,",
 				"          Column_4 as string",
 				"     ),",
+				"     partitionFileNames:['\"test\"'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
