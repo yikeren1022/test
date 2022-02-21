@@ -1,0 +1,28 @@
+{
+	"name": "DS_GUP_READ_NOTIFICATION",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "USCDO_AzureBlobStorage_AutoResolveIR",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"filepath": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": {
+					"value": "@dataset().filepath",
+					"type": "Expression"
+				},
+				"container": "cdo"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

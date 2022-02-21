@@ -1,0 +1,23 @@
+{
+	"name": "USCDO_SQLDB",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=pzi-gxeu-p-mssq-asa-p001.database.windows.net;Initial Catalog=cdosqldb;User ID=datahub",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "CDO_AKV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "cdosqldwSecret"
+			}
+		},
+		"connectVia": {
+			"referenceName": "pocOnSiteIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		},
+		"annotations": []
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "IntRunTimeNxtGenAzHosted",
+	"properties": {
+		"type": "Managed",
+		"description": "All IR are set as Azure IR ",
+		"typeProperties": {
+			"computeProperties": {
+				"location": "AutoResolve",
+				"dataFlowProperties": {
+					"computeType": "General",
+					"coreCount": 8,
+					"timeToLive": 0
+				}
+			}
+		}
+	}
+}

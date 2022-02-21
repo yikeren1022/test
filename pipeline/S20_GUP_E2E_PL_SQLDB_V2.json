@@ -1,0 +1,618 @@
+{
+	"name": "S20_GUP_E2E_PL_SQLDB_V2",
+	"properties": {
+		"activities": [
+			{
+				"name": "LOG_START",
+				"description": "start the log of the e2e pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LOG_AND_ERROR_HANDLING_SQLDB",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": false,
+					"parameters": {
+						"logType": "START",
+						"hostMachine": {
+							"value": "@pipeline().DataFactory",
+							"type": "Expression"
+						},
+						"jobLibraryKey": {
+							"value": "@pipeline().parameters.jobLibraryKey",
+							"type": "Expression"
+						},
+						"jobLoggingKey": {
+							"value": "@pipeline().RunId",
+							"type": "Expression"
+						},
+						"ownerName": {
+							"value": "@pipeline().Pipeline",
+							"type": "Expression"
+						},
+						"logMessage": "'S20 GUP Pipeline Started'"
+					}
+				}
+			},
+			{
+				"name": "LOG_IF_NOTIFICATIONS_EXISTS_ERROR",
+				"description": "log control table lookup error",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IF_NOTIFICATIONS_EXISTS",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LOG_AND_ERROR_HANDLING_SQLDB",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": false,
+					"parameters": {
+						"logType": "ERROR",
+						"jobLibraryKey": {
+							"value": "@pipeline().parameters.jobLibraryKey",
+							"type": "Expression"
+						},
+						"jobLoggingKey": {
+							"value": "@pipeline().RunId",
+							"type": "Expression"
+						},
+						"ownerName": {
+							"value": "@pipeline().Pipeline",
+							"type": "Expression"
+						},
+						"logMessage": {
+							"value": "@activity('IF_NOTIFICATIONS_EXISTS').Error.Message",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "LOG_END",
+				"description": "log end of e2e pl if successful",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IF_NOTIFICATIONS_EXISTS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LOG_AND_ERROR_HANDLING_SQLDB",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": false,
+					"parameters": {
+						"logType": {
+							"value": "END",
+							"type": "Expression"
+						},
+						"jobLibraryKey": {
+							"value": "@pipeline().parameters.jobLibraryKey",
+							"type": "Expression"
+						},
+						"jobLoggingKey": {
+							"value": "@pipeline().RunId",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "CHECK_CURRENT_NOTIFICATIONS_EXISTS",
+				"type": "GetMetadata",
+				"dependsOn": [
+					{
+						"activity": "LOG_START",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_GUP_READ_NOTIFICATION",
+						"type": "DatasetReference",
+						"parameters": {
+							"filepath": {
+								"value": "@pipeline().parameters.notificationCurrentPath",
+								"type": "Expression"
+							}
+						}
+					},
+					"fieldList": [
+						"exists"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "JsonReadSettings"
+					}
+				}
+			},
+			{
+				"name": "IF_NOTIFICATIONS_EXISTS",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "CHECK_CURRENT_NOTIFICATIONS_EXISTS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@activity('CHECK_CURRENT_NOTIFICATIONS_EXISTS').output.exists",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "CURRENT_NOTIFICATIONS_STATUS",
+							"description": "",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "LOG_AND_ERROR_HANDLING_SQLDB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": false,
+								"parameters": {
+									"logType": "",
+									"hostMachine": {
+										"value": "@pipeline().DataFactory",
+										"type": "Expression"
+									},
+									"jobLibraryKey": {
+										"value": "@pipeline().parameters.jobLibraryKey",
+										"type": "Expression"
+									},
+									"jobLoggingKey": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"ownerName": {
+										"value": "@pipeline().Pipeline",
+										"type": "Expression"
+									},
+									"logMessage": "'Current notifications folder is empty'"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "EP_CES_DATA_TO_CDO",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "S20_GUP_E2E_CHILD_PL_SQLDB_V2",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"notificationCurrentPath": {
+										"value": "@pipeline().parameters.notificationCurrentPath",
+										"type": "Expression"
+									},
+									"stgSchemaName": {
+										"value": "@pipeline().parameters.S20StageSchemaName",
+										"type": "Expression"
+									},
+									"notificationPartyIdListTable": {
+										"value": "@pipeline().parameters.notificationPartyIdListTable",
+										"type": "Expression"
+									},
+									"gupDetailsTableName": {
+										"value": "@pipeline().parameters.gupDetailsTableName",
+										"type": "Expression"
+									},
+									"errorLogTable": {
+										"value": "@pipeline().parameters.errorLogTable",
+										"type": "Expression"
+									},
+									"offsetDays": {
+										"value": "@pipeline().parameters.offsetDaysErrorPartyIdReprocess",
+										"type": "Expression"
+									},
+									"gupBaseSchema": {
+										"value": "@pipeline().parameters.S20BaseSchemaName",
+										"type": "Expression"
+									},
+									"maxBatchSize": {
+										"value": "@pipeline().parameters.maxBatchSize",
+										"type": "Expression"
+									},
+									"maxAPIConnections": {
+										"value": "@pipeline().parameters.maxAPIConnections",
+										"type": "Expression"
+									},
+									"execBatchLimit": {
+										"value": "@pipeline().parameters.execBatchLimit",
+										"type": "Expression"
+									},
+									"FolderList": {
+										"value": "@pipeline().parameters.FolderList",
+										"type": "Expression"
+									}
+								}
+							}
+						},
+						{
+							"name": "LOG_CES_COPY_ACTY_ERROR",
+							"description": "log the end of copy data to stage schema if it fails",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "EP_CES_DATA_TO_CDO",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "LOG_AND_ERROR_HANDLING_SQLDB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": false,
+								"parameters": {
+									"logType": "ERROR",
+									"jobLibraryKey": {
+										"value": "@pipeline().parameters.jobLibraryKey",
+										"type": "Expression"
+									},
+									"jobLoggingKey": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"ownerName": {
+										"value": "@pipeline().Pipeline",
+										"type": "Expression"
+									},
+									"logMessage": {
+										"value": "@{activity('EP_CES_DATA_TO_CDO').Error}",
+										"type": "Expression"
+									}
+								}
+							}
+						},
+						{
+							"name": "EP_CES_STG_TO_BASE_COPY",
+							"description": "executes the CES_STG_TO_BASE_COPY pipeline for stage to base copy",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "EP_CES_DATA_TO_CDO",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "S20_API_STG_TO_BASE_COPY_SQLDB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"s20CntlLookupQry": {
+										"value": "@pipeline().parameters.S20CntlLookupQry",
+										"type": "Expression"
+									},
+									"s20BaseSchemaName": {
+										"value": "@pipeline().parameters.S20BaseSchemaName",
+										"type": "Expression"
+									},
+									"s20StgSchemaName": {
+										"value": "@pipeline().parameters.S20StageSchemaName",
+										"type": "Expression"
+									},
+									"s20HistSchemaName": {
+										"value": "@pipeline().parameters.S20HistSchemaName",
+										"type": "Expression"
+									},
+									"s20CtlTable": {
+										"value": "@pipeline().parameters.S20CntlTableName",
+										"type": "Expression"
+									},
+									"strSPCesIncStgToBaseCopy": {
+										"value": "@pipeline().parameters.strSPS20IncStgToBaseCopy",
+										"type": "Expression"
+									},
+									"strSPCesIncStgToHistCopy": {
+										"value": "@pipeline().parameters.strSPS20IncStgToHistCopy",
+										"type": "Expression"
+									}
+								}
+							}
+						},
+						{
+							"name": "LOG_ERROR",
+							"description": "log end of e2e pl if it fails",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "EP_CES_STG_TO_BASE_COPY",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "LOG_AND_ERROR_HANDLING_SQLDB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": false,
+								"parameters": {
+									"logType": "ERROR",
+									"jobLibraryKey": {
+										"value": "@pipeline().parameters.jobLibraryKey",
+										"type": "Expression"
+									},
+									"jobLoggingKey": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"ownerName": {
+										"value": "@pipeline().Pipeline",
+										"type": "Expression"
+									},
+									"logMessage": {
+										"value": "@{activity('EP_CES_STG_TO_BASE_COPY').Error}",
+										"type": "Expression"
+									}
+								}
+							}
+						},
+						{
+							"name": "LOG_ARCHIVE_ERROR",
+							"description": "log end of e2e pl if it fails",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "ARCHIVE_NOTIFICATIONS",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "LOG_AND_ERROR_HANDLING_SQLDB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": false,
+								"parameters": {
+									"logType": "ERROR",
+									"jobLibraryKey": {
+										"value": "@pipeline().parameters.jobLibraryKey",
+										"type": "Expression"
+									},
+									"jobLoggingKey": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"ownerName": {
+										"value": "@pipeline().Pipeline",
+										"type": "Expression"
+									},
+									"logMessage": {
+										"value": "@{activity('ARCHIVE_NOTIFICATIONS').Error}",
+										"type": "Expression"
+									}
+								}
+							}
+						},
+						{
+							"name": "ARCHIVE_NOTIFICATIONS",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "EP_CES_STG_TO_BASE_COPY",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "CES_GUP_ARCHIVE_NOTIFICATIONS_V2",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"currentPath": {
+										"value": "@pipeline().parameters.notificationCurrentPath",
+										"type": "Expression"
+									},
+									"archivePath": {
+										"value": "@pipeline().parameters.notificationArchivePath",
+										"type": "Expression"
+									},
+									"archiveFilterTime": {
+										"value": "@addminutes(pipeline().TriggerTime,pipeline().parameters.offsetArchiveNotifications)",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "LOG_CHECK_FOLDER_ERROR",
+				"description": "log control table lookup error",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "CHECK_CURRENT_NOTIFICATIONS_EXISTS",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LOG_AND_ERROR_HANDLING_SQLDB",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": false,
+					"parameters": {
+						"logType": "ERROR",
+						"jobLibraryKey": {
+							"value": "@pipeline().parameters.jobLibraryKey",
+							"type": "Expression"
+						},
+						"jobLoggingKey": {
+							"value": "@pipeline().RunId",
+							"type": "Expression"
+						},
+						"ownerName": {
+							"value": "@pipeline().Pipeline",
+							"type": "Expression"
+						},
+						"logMessage": {
+							"value": "@activity('CHECK_CURRENT_NOTIFICATIONS_EXISTS').Error.Message",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"jobLibraryKey": {
+				"type": "string",
+				"defaultValue": "CDDC98FD-3A62-47B1-93CE-869E3C411924"
+			},
+			"S20CntlLookupQry": {
+				"type": "string",
+				"defaultValue": "select *,newid() as tblJobLoggingKey from [Src20].[apiSrc20Objects_Ctl] where IsCopyTableActive = 'Y'"
+			},
+			"S20BaseSchemaName": {
+				"type": "string",
+				"defaultValue": "Src20"
+			},
+			"S20StageSchemaName": {
+				"type": "string",
+				"defaultValue": "Src20_stg"
+			},
+			"S20CntlTableName": {
+				"type": "string",
+				"defaultValue": "apiSrc20Objects_Ctl"
+			},
+			"notificationCurrentPath": {
+				"type": "string",
+				"defaultValue": "current/gupNotifications"
+			},
+			"notificationArchivePath": {
+				"type": "string",
+				"defaultValue": "archive/gupNotifications"
+			},
+			"notificationPartyIdListTable": {
+				"type": "string",
+				"defaultValue": "apiNotificationPartyIdList"
+			},
+			"offsetArchiveNotifications": {
+				"type": "int",
+				"defaultValue": -10
+			},
+			"errorLogTable": {
+				"type": "string",
+				"defaultValue": "apiErrorPartyIds"
+			},
+			"gupDetailsTableName": {
+				"type": "string",
+				"defaultValue": "apiPartyGupDetails"
+			},
+			"offsetDaysErrorPartyIdReprocess": {
+				"type": "string",
+				"defaultValue": "1"
+			},
+			"maxAPIConnections": {
+				"type": "int",
+				"defaultValue": 20
+			},
+			"execBatchLimit": {
+				"type": "string",
+				"defaultValue": "-1"
+			},
+			"S20HistSchemaName": {
+				"type": "string",
+				"defaultValue": "Src20_hist"
+			},
+			"strSPS20IncStgToBaseCopy": {
+				"type": "string",
+				"defaultValue": "Src20.sp_copyIncrStageTablesToBase"
+			},
+			"strSPS20IncStgToHistCopy": {
+				"type": "string",
+				"defaultValue": "Src20.sp_insertSrc20IncHistory"
+			},
+			"maxBatchSize": {
+				"type": "int",
+				"defaultValue": 5000
+			},
+			"spInsErrorLog": {
+				"type": "string",
+				"defaultValue": "Src20.sp_insGupApiErrorPartyIds"
+			},
+			"FolderList": {
+				"type": "array",
+				"defaultValue": [
+					"ALL",
+					"IG",
+					"LG",
+					"MG"
+				]
+			}
+		},
+		"variables": {
+			"lastJobRunDate": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "CES_API"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-08-16T11:02:58Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -2,14 +2,22 @@
 	"name": "AzureSynapseAnalyticsTable1",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSynapseAnalytics2",
+			"referenceName": "AzureSynapseAnalytics1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
 		"schema": [
 			{
-				"name": "col1",
+				"name": "CardID",
+				"type": "nchar"
+			},
+			{
+				"name": "CustomerID",
+				"type": "nchar"
+			},
+			{
+				"name": "EmployeeID",
 				"type": "int",
 				"precision": 10
 			}
@@ -18,5 +26,6 @@
 			"schema": "dbo",
 			"table": "copytest"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

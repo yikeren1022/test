@@ -1,0 +1,93 @@
+{
+	"name": "DS_GUP_NOTIFICATION_SRC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "USCDO_AzureBlobStorage_AutoResolveIR",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileName": {
+				"type": "string",
+				"defaultValue": "SRC2-353374951-LG"
+			},
+			"filePath": {
+				"type": "string",
+				"defaultValue": "current/gupNotifications"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().fileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().filePath",
+					"type": "Expression"
+				},
+				"container": "cdo"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"message": {
+					"type": "object",
+					"properties": {
+						"messageId": {
+							"type": "string"
+						},
+						"partyId": {
+							"type": "string"
+						},
+						"prid": {
+							"type": "string"
+						},
+						"dateTime": {
+							"type": "string"
+						},
+						"partyName": {
+							"type": "string"
+						},
+						"eventType": {
+							"type": "string"
+						},
+						"sourceSystem": {
+							"type": "string"
+						},
+						"recordStatus": {
+							"type": "string"
+						},
+						"transactionId": {
+							"type": "string"
+						},
+						"partyType": {
+							"type": "string"
+						},
+						"orgType": {
+							"type": "string"
+						},
+						"data": {
+							"type": "object",
+							"properties": {
+								"globalUltimatePartyId": {
+									"type": "string"
+								},
+								"affiliatePartyIds": {
+									"type": "array",
+									"items": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,1199 @@
+{
+	"name": "S20_GUP_E2E_CHILD_PL_SQLDB_V2",
+	"properties": {
+		"activities": [
+			{
+				"name": "FE_GET_GUP_API_RESPONSE",
+				"description": "call the getGUP API to get GUP details for all partyIds and write into Blob storage",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LP_BATCH_NUM_LIST",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LP_BATCH_NUM_LIST').output.value",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 5,
+					"activities": [
+						{
+							"name": "EXEC_CES_STORE_API_RESPONSE_BATCH",
+							"description": "The execute pipeline calls GUP_STORE_API_RESPONSE_SQLDB_V4 Pipeline for extracting only \"Management GUP\"",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "GUP_STORE_API_RESPONSE_SQLDB_V4",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"responseFolderName": {
+										"value": "@pipeline().parameters.responseFolderName",
+										"type": "Expression"
+									},
+									"schemaName": {
+										"value": "@pipeline().parameters.tgtSchemaName",
+										"type": "Expression"
+									},
+									"tableName": {
+										"value": "@pipeline().parameters.tgtTableName",
+										"type": "Expression"
+									},
+									"batchNum": {
+										"value": "@item().batchNum",
+										"type": "Expression"
+									},
+									"errorLogSchemaName": {
+										"value": "@pipeline().parameters.stgSchemaName",
+										"type": "Expression"
+									},
+									"errorLogTableName": {
+										"value": "@pipeline().parameters.errorLogTable",
+										"type": "Expression"
+									},
+									"spInsErrorLog": {
+										"value": "@pipeline().parameters.spInsErrorLogStgTable",
+										"type": "Expression"
+									},
+									"columnName": {
+										"value": "@pipeline().parameters.srcColumnName",
+										"type": "Expression"
+									},
+									"maxAPIConnections": {
+										"value": "@pipeline().parameters.maxAPIConnections",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "CHECK_IF_RESPONSE_FOLDER_EXISTS",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_GUP_RESPONSE_DELETE_DNU",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"exists"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "BinaryReadSettings"
+					}
+				}
+			},
+			{
+				"name": "DELETE_IF_FOLDER_EXISTS",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "CHECK_IF_RESPONSE_FOLDER_EXISTS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@activity('CHECK_IF_RESPONSE_FOLDER_EXISTS').output.exists",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "DELETE_OLD_GUP_RESPONSE_DATA_copy1",
+							"type": "Delete",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "DS_GUP_RESPONSE_DELETE_DNU",
+									"type": "DatasetReference"
+								},
+								"enableLogging": false,
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*",
+									"enablePartitionDiscovery": false
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "UNION_ERROR_PARTYIDS_TO_REPROCESS",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "SP_EXTRACT_PARTYIDS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@concat('select partyId from ',pipeline().parameters.stgSchemaName,'.',pipeline().parameters.notificationPartyIdListTable,' UNION Select partyId from ',pipeline().parameters.gupBaseSchema,'.',pipeline().parameters.errorLogTable,' where runDate >= convert(date,DATEADD(day, ',pipeline().parameters.offsetDays,', GetDate()))')",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "@{concat('IF OBJECT_ID(''',pipeline().parameters.stgSchemaName,'.',pipeline().parameters.FinalPartyIdListTable,''') IS NOT NULL DROP TABLE ',pipeline().parameters.stgSchemaName,'.',pipeline().parameters.FinalPartyIdListTable)}",
+							"type": "Expression"
+						},
+						"writeBehavior": "insert",
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['messageId']"
+								},
+								"sink": {
+									"name": "messageId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['payload']['partyId']"
+								},
+								"sink": {
+									"name": "partyId",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_CDO_SQLDB",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SQLDB",
+						"type": "DatasetReference",
+						"parameters": {
+							"schemaName": {
+								"value": "@pipeline().parameters.stgSchemaName",
+								"type": "Expression"
+							},
+							"tableName": {
+								"value": "@pipeline().parameters.FinalPartyIdListTable",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "SP_CREATE_NOTIFICATION_PARTYID_BACTH",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "UNION_ERROR_PARTYIDS_TO_REPROCESS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": {
+						"value": "@pipeline().parameters.spCreateBatch",
+						"type": "Expression"
+					},
+					"storedProcedureParameters": {
+						"maxBatchSize": {
+							"value": {
+								"value": "@pipeline().parameters.maxBatchSize",
+								"type": "Expression"
+							},
+							"type": "Int32"
+						},
+						"srcColumnName": {
+							"value": {
+								"value": "@pipeline().parameters.srcColumnName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"srcSchemaName": {
+							"value": {
+								"value": "@pipeline().parameters.srcSchemaName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"srcTableName": {
+							"value": {
+								"value": "@pipeline().parameters.srcTableName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"srcWhereCondition": {
+							"value": {
+								"value": "@pipeline().parameters.srcWhereCondition",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"tgtSchemaName": {
+							"value": {
+								"value": "@pipeline().parameters.tgtSchemaName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"tgtTableName": {
+							"value": {
+								"value": "@pipeline().parameters.tgtTableName",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "USCDO_SQLDB",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "TRUNCATE_STG_API_ERROR_LOG_TBL",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "SP_CREATE_NOTIFICATION_PARTYID_BACTH",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@concat('truncate table ',pipeline().parameters.stgSchemaName,'.',pipeline().parameters.errorLogTable,'; Select 1')",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_CDO_SQLDB",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "LP_BATCH_NUM_LIST",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "TRUNCATE_STG_API_ERROR_LOG_TBL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@if(equals(pipeline().parameters.execBatchLimit,'-1'),concat('Select distinct batchNum from ',pipeline().parameters.tgtSchemaName,'.',pipeline().parameters.tgtTableName,' order by batchNum'),concat('Select distinct batchNum from ',pipeline().parameters.tgtSchemaName,'.',pipeline().parameters.tgtTableName,' where batchNum < ',pipeline().parameters.execBatchLimit,' order by batchNum'))",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_CDO_SQLDB",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "SP_COPY_ERROR_PARTYIDS_STG_TO_BASE",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "SP_EXTRACT_JSON_TO_STAGING_TABLE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": {
+						"value": "@pipeline().parameters.spUpdateErrorLogBaseTbl",
+						"type": "Expression"
+					},
+					"storedProcedureParameters": {
+						"destSchema": {
+							"value": {
+								"value": "@pipeline().parameters.gupBaseSchema",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"hierarchyCodeKey": {
+							"value": {
+								"value": "@pipeline().parameters.hierarchyCodeKey",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"offsetDays": {
+							"value": {
+								"value": "@pipeline().parameters.offsetDays",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"primaryKey": {
+							"value": {
+								"value": "@pipeline().parameters.PrimaryKeyErrorLogTable",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"runDateKey": {
+							"value": {
+								"value": "@pipeline().parameters.runDateKey",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"srcSchema": {
+							"value": {
+								"value": "@pipeline().parameters.stgSchemaName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"tableName": {
+							"value": {
+								"value": "@pipeline().parameters.errorLogTable",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "USCDO_SQLDB",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "TRUNCATE_PARTY_GUP_PRE_TBL",
+				"description": "truncate the staging table Src20_stg.apiPartyGupDetails_pre",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "FE_GET_GUP_API_RESPONSE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 1,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@concat('truncate table ',pipeline().parameters.stgSchemaName,'.',pipeline().parameters.gupDetailsTableNamePre,'; Select 1')",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_CDO_SQLDB",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "FE_SUBFOLDER_EXTRACT_GUP_DETAILS",
+				"description": "To validate the child folder (IG,LG & MG) exists and if yes, then extract JSON data to pre table.",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "TRUNCATE_PARTY_GUP_PRE_TBL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.FolderList",
+						"type": "Expression"
+					},
+					"batchCount": 4,
+					"activities": [
+						{
+							"name": "CHECK_IF_RESPONSE_SUBFOLDER_EXISTS",
+							"type": "GetMetadata",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "DS_GUP_API_RESPONSE",
+									"type": "DatasetReference",
+									"parameters": {
+										"folderName": {
+											"value": "@concat(pipeline().parameters.responseFolderName,'/',item())",
+											"type": "Expression"
+										}
+									}
+								},
+								"fieldList": [
+									"exists"
+								],
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							}
+						},
+						{
+							"name": "IF_SUBFOLDER_EXISTS",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "CHECK_IF_RESPONSE_SUBFOLDER_EXISTS",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@activity('CHECK_IF_RESPONSE_SUBFOLDER_EXISTS').output.exists",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "COPY_SUBFOLDER_GUP_DATA_TO_PRE_TABLE",
+										"type": "Copy",
+										"dependsOn": [
+											{
+												"activity": "SET_HIERARCHY_CODE",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "7.00:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "JsonSource",
+												"additionalColumns": [
+													{
+														"name": "dpExtractDate",
+														"value": {
+															"value": "@utcnow()",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "sourceSystemCode",
+														"value": "SOURCE2.0|AA"
+													},
+													{
+														"name": "inputPartyId",
+														"value": "$$FILEPATH"
+													},
+													{
+														"name": "hierarchyCode",
+														"value": {
+															"value": "@variables('hierarchyCode')",
+															"type": "Expression"
+														}
+													}
+												],
+												"storeSettings": {
+													"type": "AzureBlobStorageReadSettings",
+													"recursive": true,
+													"wildcardFolderPath": {
+														"value": "@concat('CES/',pipeline().parameters.responseFolderName,'/',item())",
+														"type": "Expression"
+													},
+													"wildcardFileName": "*",
+													"enablePartitionDiscovery": false
+												},
+												"formatSettings": {
+													"type": "JsonReadSettings"
+												}
+											},
+											"sink": {
+												"type": "AzureSqlSink",
+												"writeBehavior": "insert",
+												"disableMetricsCollection": false
+											},
+											"enableStaging": false,
+											"parallelCopies": 4,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"path": "$['dpExtractDate']"
+														},
+														"sink": {
+															"name": "dpExtractDate"
+														}
+													},
+													{
+														"source": {
+															"path": "$['sourceSystemCode']"
+														},
+														"sink": {
+															"name": "sourceSystemCode"
+														}
+													},
+													{
+														"source": {
+															"path": "$['inputPartyId']"
+														},
+														"sink": {
+															"name": "inputPartyId"
+														}
+													},
+													{
+														"source": {
+															"path": "$['hierarchyCode']"
+														},
+														"sink": {
+															"name": "hierarchyCode"
+														}
+													},
+													{
+														"source": {
+															"path": "$"
+														},
+														"sink": {
+															"name": "sourceVal"
+														}
+													}
+												],
+												"collectionReference": "",
+												"mapComplexValuesToString": true
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "DS_GETGUP_TGT",
+												"type": "DatasetReference",
+												"parameters": {
+													"fileName": {
+														"value": "@pipeline().parameters.sampleResponseFileName",
+														"type": "Expression"
+													},
+													"folderName": {
+														"value": "@concat(pipeline().parameters.responseFolderName,'/',item())",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "DS_SQLDB",
+												"type": "DatasetReference",
+												"parameters": {
+													"schemaName": {
+														"value": "@pipeline().parameters.stgSchemaName",
+														"type": "Expression"
+													},
+													"tableName": {
+														"value": "@pipeline().parameters.gupDetailsTableNamePre",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									},
+									{
+										"name": "SET_HIERARCHY_CODE",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "hierarchyCode",
+											"value": {
+												"value": "@if(equals(item(),'ALL'),'1882148',if(equals(item(),'IG'),'1882144',if(equals(item(),'MG'),'1882142',if(equals(item(),'LG'),'1882143',''))))",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "SP_EXTRACT_JSON_TO_STAGING_TABLE",
+				"description": "Extract Gup details from the api response JSON file where status code not in ('SRC2-2001').\n\nAlso insert into error log table where the response JSON file having status code = 'SRC2-2001'.\n",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "FE_SUBFOLDER_EXTRACT_GUP_DETAILS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[Src20].[p_ins_PartyGupDetails]",
+					"storedProcedureParameters": {
+						"rowsDeleted": {
+							"type": "Int32"
+						},
+						"rowsInserted": {
+							"type": "Int32"
+						},
+						"rowsProcessed": {
+							"type": "Int32"
+						},
+						"rowsUpdated": {
+							"type": "Int32"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "USCDO_SQLDB",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SP_COPY_LOG_STG_TO_BASE",
+				"description": "calls a procedure to copy stage data to base for gupNotificationsLog table",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "SP_EXTRACT_JSON_TO_STAGING_TABLE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[Src20].[sp_copyIncrStageTablesToBase]",
+					"storedProcedureParameters": {
+						"destSchema": {
+							"value": {
+								"value": "@pipeline().parameters.gupBaseSchema",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"preSchema": {
+							"type": "String"
+						},
+						"primaryKeyName": {
+							"value": {
+								"value": "@pipeline().parameters.PrimaryKeyNotificationsLogTable",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"srcSchema": {
+							"value": {
+								"value": "@pipeline().parameters.stgSchemaName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"tableName": {
+							"value": {
+								"value": "@pipeline().parameters.gupNotificationsLogTable",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "USCDO_SQLDB",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "COPY_NOTIFICATIONS_DETAILS_TO_LOG_TABLE",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DELETE_IF_FOLDER_EXISTS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 1,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"additionalColumns": [
+							{
+								"name": "dpExtractDate",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFileName": "*",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "@{concat('truncate table ',pipeline().parameters.stgSchemaName, '.', pipeline().parameters.gupNotificationsLogTable)}",
+							"type": "Expression"
+						},
+						"writeBehavior": "insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['message']['messageId']"
+								},
+								"sink": {
+									"name": "messageId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['message']['partyId']"
+								},
+								"sink": {
+									"name": "partyId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['message']['prid']"
+								},
+								"sink": {
+									"name": "prid",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['message']['dateTime']"
+								},
+								"sink": {
+									"name": "dateTime",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "$['message']['eventType']"
+								},
+								"sink": {
+									"name": "eventType",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['message']['data']['affiliatePartyIds']"
+								},
+								"sink": {
+									"name": "affiliatePartyIds",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['dpExtractDate']"
+								},
+								"sink": {
+									"name": "dpExtractDate"
+								}
+							}
+						],
+						"collectionReference": "",
+						"mapComplexValuesToString": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_GUP_NOTIFICATION_SRC",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileName": {
+								"value": "@pipeline().parameters.sampleNotificationFileName",
+								"type": "Expression"
+							},
+							"filePath": {
+								"value": "@pipeline().parameters.notificationCurrentPath",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SQLDB",
+						"type": "DatasetReference",
+						"parameters": {
+							"schemaName": {
+								"value": "@pipeline().parameters.stgSchemaName",
+								"type": "Expression"
+							},
+							"tableName": {
+								"value": "@pipeline().parameters.gupNotificationsLogTable",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "SP_EXTRACT_PARTYIDS",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "COPY_NOTIFICATIONS_DETAILS_TO_LOG_TABLE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[Src20].[p_ins_gupNotifcationPartyIds]",
+					"storedProcedureParameters": {
+						"rowsDeleted": {
+							"type": "Int32"
+						},
+						"rowsInserted": {
+							"type": "Int32"
+						},
+						"rowsProcessed": {
+							"type": "Int32"
+						},
+						"rowsUpdated": {
+							"type": "Int32"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "USCDO_SQLDB",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"responseFolderName": {
+				"type": "string",
+				"defaultValue": "GUP_Responses"
+			},
+			"notificationCurrentPath": {
+				"type": "string",
+				"defaultValue": "current/gupNotifications"
+			},
+			"sampleNotificationFileName": {
+				"type": "string",
+				"defaultValue": "SRC2-353374951-LG"
+			},
+			"stgSchemaName": {
+				"type": "string",
+				"defaultValue": "Src20_stg"
+			},
+			"notificationPartyIdListTable": {
+				"type": "string",
+				"defaultValue": "apiNotificationPartyIdList"
+			},
+			"notificationWildcardPath": {
+				"type": "string",
+				"defaultValue": "current/gupNotifications/*"
+			},
+			"sampleResponseFileName": {
+				"type": "string",
+				"defaultValue": "edc2b37b-c881-46cf-9219-aa91f07d297b"
+			},
+			"gupDetailsTableName": {
+				"type": "string",
+				"defaultValue": "apiPartyGupDetails"
+			},
+			"errorLogTable": {
+				"type": "string",
+				"defaultValue": "apiErrorPartyIds"
+			},
+			"spInsErrorLogStgTable": {
+				"type": "string",
+				"defaultValue": "[Src20].[sp_insGupApiErrorPartyIds]"
+			},
+			"offsetDays": {
+				"type": "string",
+				"defaultValue": "-5"
+			},
+			"gupBaseSchema": {
+				"type": "string",
+				"defaultValue": "Src20"
+			},
+			"FinalPartyIdListTable": {
+				"type": "string",
+				"defaultValue": "finalPartyIdList"
+			},
+			"srcSchemaName": {
+				"type": "string",
+				"defaultValue": "Src20_stg"
+			},
+			"srcTableName": {
+				"type": "string",
+				"defaultValue": "finalPartyIdList"
+			},
+			"srcColumnName": {
+				"type": "string",
+				"defaultValue": "partyId"
+			},
+			"srcWhereCondition": {
+				"type": "string",
+				"defaultValue": " "
+			},
+			"maxBatchSize": {
+				"type": "int",
+				"defaultValue": 5000
+			},
+			"tgtSchemaName": {
+				"type": "string",
+				"defaultValue": "Src20_stg"
+			},
+			"tgtTableName": {
+				"type": "string",
+				"defaultValue": "notificationPartyIdBatch"
+			},
+			"maxAPIConnections": {
+				"type": "int",
+				"defaultValue": 20
+			},
+			"execBatchLimit": {
+				"type": "string",
+				"defaultValue": "-1"
+			},
+			"spUpdateErrorLogBaseTbl": {
+				"type": "string",
+				"defaultValue": "Src20.sp_apiGupCopyErrorLogStgTblToBase"
+			},
+			"PrimaryKeyErrorLogTable": {
+				"type": "string",
+				"defaultValue": "partyId"
+			},
+			"spCreateBatch": {
+				"type": "string",
+				"defaultValue": "ces.sp_createBatch"
+			},
+			"FolderList": {
+				"type": "array",
+				"defaultValue": [
+					"ALL",
+					"IG",
+					"LG",
+					"MG"
+				]
+			},
+			"gupDetailsTableNamePre": {
+				"type": "string",
+				"defaultValue": "apiPartyGupDetails_pre"
+			},
+			"gupNotificationsLogTable": {
+				"type": "string",
+				"defaultValue": "gupNotificationsLog"
+			},
+			"PrimaryKeyNotificationsLogTable": {
+				"type": "string",
+				"defaultValue": "messageId"
+			},
+			"hierarchyCodeKey": {
+				"type": "string",
+				"defaultValue": "hierarchyCode"
+			},
+			"runDateKey": {
+				"type": "string",
+				"defaultValue": "runDate"
+			}
+		},
+		"variables": {
+			"hierarchyCode": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "CES_API"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-08-16T11:02:52Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

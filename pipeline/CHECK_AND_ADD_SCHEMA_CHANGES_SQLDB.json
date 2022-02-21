@@ -1,0 +1,84 @@
+{
+	"name": "CHECK_AND_ADD_SCHEMA_CHANGES_SQLDB",
+	"properties": {
+		"activities": [
+			{
+				"name": "SP_CHECK_AND_ALTER_TABLE_SCHEMA",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 1,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": {
+						"value": "@if(contains(pipeline().parameters.strDestSchemaName, '_'),\nconcat('[',substring(pipeline().parameters.strDestSchemaName,0,indexOf(pipeline().parameters.strDestSchemaName,'_')),'].[sp_alterBaseTableIfSrcSchemaChange]'),\nconcat('[',pipeline().parameters.strDestSchemaName,'].[sp_alterBaseTableIfSrcSchemaChange]'))",
+						"type": "Expression"
+					},
+					"storedProcedureParameters": {
+						"destSchema": {
+							"value": {
+								"value": "@pipeline().parameters.strDestSchemaName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"destTableName": {
+							"value": {
+								"value": "@pipeline().parameters.strDestTableName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"srcSchema": {
+							"value": {
+								"value": "@pipeline().parameters.strSrcSchemaName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"srcTableName": {
+							"value": {
+								"value": "@pipeline().parameters.strSrcTableName",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "USCDO_SQLDB",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"strSrcSchemaName": {
+				"type": "string",
+				"defaultValue": "flex_stg"
+			},
+			"strSrcTableName": {
+				"type": "string",
+				"defaultValue": "testtab1"
+			},
+			"strDestSchemaName": {
+				"type": "string",
+				"defaultValue": "flex"
+			},
+			"strDestTableName": {
+				"type": "string",
+				"defaultValue": "testtab1"
+			}
+		},
+		"folder": {
+			"name": "Common"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-08-16T11:02:54Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

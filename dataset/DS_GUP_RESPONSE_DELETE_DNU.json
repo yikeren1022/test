@@ -1,0 +1,19 @@
+{
+	"name": "DS_GUP_RESPONSE_DELETE_DNU",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "USCDO_AzureBlobStorage_AutoResolveIR",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "CES/GUP_Responses",
+				"container": "36ba9f6b-dd0b-4f24-b43f-10de9f54dc60"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

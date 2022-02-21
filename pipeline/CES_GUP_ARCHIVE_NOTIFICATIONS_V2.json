@@ -1,0 +1,151 @@
+{
+	"name": "CES_GUP_ARCHIVE_NOTIFICATIONS_V2",
+	"properties": {
+		"activities": [
+			{
+				"name": "COPY_TO_ARCHIVE",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 1,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"modifiedDatetimeEnd": {
+								"value": "@formatDateTime(pipeline().parameters.archiveFilterTime)",
+								"type": "Expression"
+							},
+							"wildcardFolderPath": {
+								"value": "@pipeline().parameters.currentPath",
+								"type": "Expression"
+							},
+							"wildcardFileName": "*",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_GUP_NOTIFICATION_SRC",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileName": {
+								"value": "@pipeline().parameters.fileName",
+								"type": "Expression"
+							},
+							"filePath": {
+								"value": "@pipeline().parameters.currentPath",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_GUP_READ_NOTIFICATION",
+						"type": "DatasetReference",
+						"parameters": {
+							"filepath": {
+								"value": "@pipeline().parameters.archivePath",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "DELETE_CURRENT_NOTIFICATIONS",
+				"type": "Delete",
+				"dependsOn": [
+					{
+						"activity": "COPY_TO_ARCHIVE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 1,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_GUP_NOTIFICATION_SRC",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileName": {
+								"value": "@pipeline().parameters.fileName",
+								"type": "Expression"
+							},
+							"filePath": {
+								"value": "@pipeline().parameters.currentPath",
+								"type": "Expression"
+							}
+						}
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"modifiedDatetimeEnd": {
+							"value": "@formatDateTime(pipeline().parameters.archiveFilterTime)",
+							"type": "Expression"
+						},
+						"wildcardFileName": "*",
+						"enablePartitionDiscovery": false
+					}
+				}
+			}
+		],
+		"parameters": {
+			"currentPath": {
+				"type": "string",
+				"defaultValue": "current/gupNotifications"
+			},
+			"archivePath": {
+				"type": "string",
+				"defaultValue": "archive/gupNotifications"
+			},
+			"archiveFilterTime": {
+				"type": "string",
+				"defaultValue": "01/30/2021 00:00:00"
+			},
+			"fileName": {
+				"type": "string",
+				"defaultValue": "024d50ea-ad4d-400c-aa81-2de7905512fc"
+			}
+		},
+		"folder": {
+			"name": "CES_API"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-08-16T11:02:55Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

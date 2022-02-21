@@ -1,0 +1,40 @@
+{
+	"name": "getGUP_API",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://api.pwcinternal.com:7443/s2mdm/api/v2.0/party/gups",
+			"authenticationType": "Anonymous",
+			"authHeaders": {
+				"apikey": {
+					"type": "AzureKeyVaultSecret",
+					"store": {
+						"referenceName": "CDO_AKV",
+						"type": "LinkedServiceReference"
+					},
+					"secretName": "CesGupApiKey"
+				},
+				"apikeysecret": {
+					"type": "AzureKeyVaultSecret",
+					"store": {
+						"referenceName": "CDO_AKV",
+						"type": "LinkedServiceReference"
+					},
+					"secretName": "CesGupApiKeySecret"
+				},
+				"Proxy-Authorization": {
+					"type": "AzureKeyVaultSecret",
+					"store": {
+						"referenceName": "CDO_AKV",
+						"type": "LinkedServiceReference"
+					},
+					"secretName": "CesGupProxyAuthorization"
+				}
+			},
+			"enableServerCertificateValidation": false
+		},
+		"description": "linked service to get GUP data using key vault headers",
+		"annotations": []
+	}
+}

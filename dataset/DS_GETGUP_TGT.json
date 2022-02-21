@@ -1,0 +1,37 @@
+{
+	"name": "DS_GETGUP_TGT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "USCDO_AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileName": {
+				"type": "string",
+				"defaultValue": "fa30c9fb-ada7-474f-8e9c-84c91b20a4a3"
+			},
+			"folderName": {
+				"type": "string",
+				"defaultValue": "ResponseData3"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().fileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "CES/@{dataset().folderName}",
+					"type": "Expression"
+				},
+				"container": "36ba9f6b-dd0b-4f24-b43f-10de9f54dc60"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

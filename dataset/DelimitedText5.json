@@ -1,8 +1,8 @@
 {
-	"name": "DelimitedText3",
+	"name": "DelimitedText5",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStorage1",
+			"referenceName": "AzureDataLakeStorage2",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

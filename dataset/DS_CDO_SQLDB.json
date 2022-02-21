@@ -1,0 +1,13 @@
+{
+	"name": "DS_CDO_SQLDB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "USCDO_SQLDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

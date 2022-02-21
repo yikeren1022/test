@@ -1,0 +1,151 @@
+{
+	"name": "S20_GUP_E2E_PARAM_PL_SQLDB_V2",
+	"properties": {
+		"activities": [
+			{
+				"name": "Getting_TriggerParameters",
+				"description": "Getting Parameter values from control table - logging.triggerParameters_Ctl",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@pipeline().parameters.triggerParametersSP_ExecQuery",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_CDO_SQLDB",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "Exec_TriggeredPipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Getting_TriggerParameters",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "S20_GUP_E2E_PL_SQLDB_V2",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"jobLibraryKey": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.jobLibraryKey",
+							"type": "Expression"
+						},
+						"S20CntlLookupQry": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.S20CntlLookupQry",
+							"type": "Expression"
+						},
+						"S20BaseSchemaName": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.S20BaseSchemaName",
+							"type": "Expression"
+						},
+						"S20StageSchemaName": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.S20StageSchemaName",
+							"type": "Expression"
+						},
+						"S20CntlTableName": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.S20CntlTableName",
+							"type": "Expression"
+						},
+						"notificationCurrentPath": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.notificationCurrentPath",
+							"type": "Expression"
+						},
+						"notificationArchivePath": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.notificationArchivePath",
+							"type": "Expression"
+						},
+						"notificationPartyIdListTable": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.notificationPartyIdListTable",
+							"type": "Expression"
+						},
+						"offsetArchiveNotifications": {
+							"value": "@int(activity('Getting_TriggerParameters').output.firstRow.offsetArchiveNotifications)",
+							"type": "Expression"
+						},
+						"errorLogTable": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.errorLogTable",
+							"type": "Expression"
+						},
+						"gupDetailsTableName": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.gupDetailsTableName",
+							"type": "Expression"
+						},
+						"offsetDaysErrorPartyIdReprocess": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.offsetDaysErrorPartyIdReprocess",
+							"type": "Expression"
+						},
+						"maxAPIConnections": {
+							"value": "@int(activity('Getting_TriggerParameters').output.firstRow.maxAPIConnections)",
+							"type": "Expression"
+						},
+						"execBatchLimit": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.execBatchLimit",
+							"type": "Expression"
+						},
+						"S20HistSchemaName": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.S20HistSchemaName",
+							"type": "Expression"
+						},
+						"strSPS20IncStgToBaseCopy": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.strSPS20IncStgToBaseCopy",
+							"type": "Expression"
+						},
+						"strSPS20IncStgToHistCopy": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.strSPS20IncStgToHistCopy",
+							"type": "Expression"
+						},
+						"maxBatchSize": {
+							"value": "@int(activity('Getting_TriggerParameters').output.firstRow.maxBatchSize)",
+							"type": "Expression"
+						},
+						"spInsErrorLog": {
+							"value": "@activity('Getting_TriggerParameters').output.firstRow.spInsErrorLog",
+							"type": "Expression"
+						},
+						"FolderList": {
+							"value": "@split(activity('Getting_TriggerParameters').output.firstRow.FolderList,',')",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"triggerParametersSP_ExecQuery": {
+				"type": "string",
+				"defaultValue": "exec logging.getTriggerParametersCtl 'S20_GUP_V2'"
+			}
+		},
+		"folder": {
+			"name": "CES_API"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-08-16T11:02:59Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

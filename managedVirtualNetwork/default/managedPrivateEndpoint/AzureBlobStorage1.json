@@ -2,6 +2,9 @@
 	"name": "AzureBlobStorage1",
 	"properties": {
 		"privateLinkResourceId": "/subscriptions/f9253429-341e-4422-a5fd-075bc7e6ba67/resourceGroups/datafactory/providers/Microsoft.Storage/storageAccounts/adfyikeren",
-		"groupId": "blob"
+		"groupId": "blob",
+		"fqdns": [
+			"adfyikeren.blob.core.windows.net"
+		]
 	}
 }

@@ -1,0 +1,29 @@
+{
+	"name": "DS_GUP_API_RESPONSE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "USCDO_AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"folderName": {
+				"type": "string",
+				"defaultValue": "ResponseData3"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": {
+					"value": "CES/@{dataset().folderName}",
+					"type": "Expression"
+				},
+				"container": "36ba9f6b-dd0b-4f24-b43f-10de9f54dc60"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

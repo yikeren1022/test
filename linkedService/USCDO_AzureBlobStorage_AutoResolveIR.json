@@ -1,0 +1,20 @@
+{
+	"name": "USCDO_AzureBlobStorage_AutoResolveIR",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": "DefaultEndpointsProtocol=https;AccountName=pzigxpweslstorp001;",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "CDO_AKV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "AzureBlobStorageSecret"
+			}
+		},
+		"description": "USCDO_AzureBlobStorage_AutoResolveIR using the auto Resolve Integration Runtime",
+		"annotations": []
+	}
+}
