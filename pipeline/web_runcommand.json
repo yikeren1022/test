@@ -1,0 +1,35 @@
+{
+	"name": "web_runcommand",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": {
+						"value": "https://management.azure.com/subscriptions/f9253429-341e-4422-a5fd-075bc7e6ba67/resourceGroups/datafactory/providers/Microsoft.Compute/virtualMachines/adftest/runCommand?api-version=2021-04-01",
+						"type": "Expression"
+					},
+					"method": "POST",
+					"body": {
+						"commandId": "RunPowerShellScript"
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://management.azure.com/"
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
