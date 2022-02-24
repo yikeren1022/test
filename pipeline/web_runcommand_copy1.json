@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "https://management.azure.com/subscriptions/f9253429-341e-4422-a5fd-075bc7e6ba67/resourceGroups/datafactory/providers/Microsoft.Compute/virtualMachines/linuxtest/runCommand?api-version=2021-04-01",
+						"value": "https://management.azure.com/subscriptions/f9253429-341e-4422-a5fd-075bc7e6ba67/resourceGroups/testforlinux_group/providers/Microsoft.Compute/virtualMachines/testforlinux/runCommand?api-version=2021-04-01",
 						"type": "Expression"
 					},
 					"method": "POST",
