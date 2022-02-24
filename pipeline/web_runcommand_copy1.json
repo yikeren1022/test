@@ -1,5 +1,5 @@
 {
-	"name": "web_runcommand",
+	"name": "web_runcommand_copy1",
 	"properties": {
 		"activities": [
 			{
@@ -20,7 +20,22 @@
 						"type": "Expression"
 					},
 					"method": "POST",
-					"body": "{\n  \"commandId\": \"RunShellScript\",\n  \"script\": ['/tmp/test.sh']\n}\n",
+					"body": {
+						"commandId": "RunShellScript",
+						"script": [
+							"echo $arg1 $arg2"
+						],
+						"parameters": [
+							{
+								"name": "arg1",
+								"value": "hello"
+							},
+							{
+								"name": "arg2",
+								"value": "world"
+							}
+						]
+					},
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://management.azure.com/"
