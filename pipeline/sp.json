@@ -15,7 +15,15 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[testadf]"
+					"storedProcedureName": "[dbo].[testadf]",
+					"storedProcedureParameters": {
+						"Name": {
+							"value": "Linda"
+						},
+						"Date": {
+							"value": "2022-02-25"
+						}
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase1",
