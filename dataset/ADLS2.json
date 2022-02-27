@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "[SubtitleTools.com] test.txt",
+				"fileName": "dbo.期間月.txt",
 				"fileSystem": "test"
 			},
 			"columnDelimiter": ",",
