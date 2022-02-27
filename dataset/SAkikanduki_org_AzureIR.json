@@ -1,0 +1,54 @@
+{
+	"name": "SAkikanduki_org_AzureIR",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "日コード",
+				"type": "char"
+			},
+			{
+				"name": "日",
+				"type": "char"
+			},
+			{
+				"name": "月コード",
+				"type": "char"
+			},
+			{
+				"name": "月",
+				"type": "char"
+			},
+			{
+				"name": "四半期コード",
+				"type": "char"
+			},
+			{
+				"name": "四半期",
+				"type": "char"
+			},
+			{
+				"name": "半期コード",
+				"type": "char"
+			},
+			{
+				"name": "半期",
+				"type": "char"
+			},
+			{
+				"name": "年度コード",
+				"type": "char"
+			},
+			{
+				"name": "年度",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "期間月"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
