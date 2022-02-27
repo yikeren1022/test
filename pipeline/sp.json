@@ -1,0 +1,36 @@
+{
+	"name": "sp",
+	"properties": {
+		"activities": [
+			{
+				"name": "Stored procedure1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[testsp]",
+					"storedProcedureParameters": {
+						"Name": {
+							"value": "Alice"
+						},
+						"Date": {
+							"value": "2022-02-25"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "linkedService4",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": []
+	}
+}
