@@ -1,0 +1,9 @@
+{
+	"name": "AzureBlobStorage832",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/92a8f2a5-2576-4733-bb21-a8ff1cca2fa9/resourcegroups/yikeren/providers/Microsoft.Storage/storageAccounts/yikerentest",
+		"groupId": "blob",
+		"ipAddress": null,
+		"resourceId": "/subscriptions/982600f8-6572-4e3c-b91b-1d38d16a3669/resourceGroups/vnet-982600f8-japaneast-138-rg/providers/Microsoft.Network/privateEndpoints/adfyikeren.AzureBlobStorage832"
+	}
+}
