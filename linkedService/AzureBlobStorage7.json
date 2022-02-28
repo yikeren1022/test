@@ -1,0 +1,14 @@
+{
+	"name": "AzureBlobStorage7",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"serviceEndpoint": "https://yikerentest.blob.core.windows.net/"
+		},
+		"connectVia": {
+			"referenceName": "azureintegrationRuntime2",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
