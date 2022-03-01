@@ -1,6 +1,10 @@
 {
 	"name": "SAkikanduki_org_AzureIR",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSynapseAnalytics2",
+			"type": "LinkedServiceReference"
+		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
 		"schema": [
@@ -47,7 +51,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "期間月"
+			"table": "date"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"

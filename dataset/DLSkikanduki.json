@@ -14,8 +14,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "dbo.期間月.txt",
-				"folderPath": "kikanduki",
-				"fileSystem": "oharacontainer"
+				"fileSystem": "test"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
