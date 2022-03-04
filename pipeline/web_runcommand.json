@@ -20,7 +20,7 @@
 						"type": "Expression"
 					},
 					"method": "POST",
-					"body": "{\n  \"commandId\": \"RunShellScript\",\n  \"script\": ['/tmp/test.sh']\n}\n",
+					"body": "{\n  \"commandId\": \"RunShellScript\",\n  \"script\": ['/tmp/tesh1.sh']\n}\n",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://management.azure.com/"
