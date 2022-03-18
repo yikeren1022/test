@@ -13,7 +13,7 @@
 				"fileName": "linebreak.csv",
 				"container": "csv"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "\t",
 			"rowDelimiter": "\r\n",
 			"escapeChar": "",
 			"firstRowAsHeader": true,
