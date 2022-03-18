@@ -13,7 +13,7 @@
 				"fileName": "wrapdata_test.csv",
 				"container": "csv"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "\n",
 			"rowDelimiter": "\n",
 			"escapeChar": "\\",
 			"quoteChar": "\""
