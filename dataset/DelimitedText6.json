@@ -10,12 +10,14 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "wrapdata_test.csv",
+				"fileName": "linebreak.csv",
 				"container": "csv"
 			},
 			"columnDelimiter": ",",
-			"escapeChar": "\\",
-			"quoteChar": "\""
+			"rowDelimiter": "\r\n",
+			"escapeChar": "",
+			"firstRowAsHeader": true,
+			"quoteChar": ""
 		},
 		"schema": [
 			{
