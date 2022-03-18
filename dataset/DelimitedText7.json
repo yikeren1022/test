@@ -14,10 +14,9 @@
 				"container": "csv"
 			},
 			"columnDelimiter": ",",
-			"rowDelimiter": " \n",
-			"escapeChar": "\\",
-			"firstRowAsHeader": false,
-			"quoteChar": "\""
+			"escapeChar": "",
+			"firstRowAsHeader": true,
+			"quoteChar": ""
 		},
 		"schema": [
 			{
