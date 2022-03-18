@@ -10,7 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "wildcard"
+				"fileName": "wrapdata_test.csv",
+				"container": "csv"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
