@@ -28,7 +28,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "wrapdata2"
+			"table": "row"
 		}
 	}
 }

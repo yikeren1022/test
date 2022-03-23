@@ -13,6 +13,7 @@
 				"fileSystem": "adls2"
 			},
 			"columnDelimiter": ",",
+			"rowDelimiter": "\n",
 			"escapeChar": "\\",
 			"quoteChar": "\""
 		},
