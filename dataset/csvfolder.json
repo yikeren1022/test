@@ -16,10 +16,6 @@
 			"escapeChar": "\\",
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
