@@ -10,8 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Untitled-1.xml",
-				"fileSystem": "test"
+				"fileSystem": "adls2"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
