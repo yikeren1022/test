@@ -1,0 +1,17 @@
+{
+	"name": "LS_files_tdb_rdb",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "\\\\ymfgp102sajw01.file.core.windows.net\\datashare\\",
+			"userId": "ymfgp102sajw01",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0MTk0MGQwZS02MmQ5LTQzMzctYTQ2Zi1mMTRlNTMwNzU2ZGMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "BDPIR001",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

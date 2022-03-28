@@ -1,0 +1,23 @@
+{
+	"name": "TR_S_RDB10182",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PL_ETL_RDB10182",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/tdb-file-trigger/blobs/TRIGGER_START/RDB10182.trg",
+			"scope": "/subscriptions/0fb5e551-ae80-4027-8871-00a8c691f82a/resourceGroups/YMFGP101RGJW01/providers/Microsoft.Storage/storageAccounts/ymfgp101sajw80",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

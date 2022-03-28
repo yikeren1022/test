@@ -1,0 +1,23 @@
+{
+	"name": "DS_ETL_END_TRIGGER_BLOB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_blob_tdb_trigger",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "TRIGGER_END",
+				"container": "tdb-file-trigger"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

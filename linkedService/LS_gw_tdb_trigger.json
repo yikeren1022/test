@@ -1,0 +1,17 @@
+{
+	"name": "LS_gw_tdb_trigger",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "\\\\10.7.206.133\\trigger\\end",
+			"userId": "bp_bat",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0YThlYWY3My1hYTU2LTQ3NTktOGE1MS0wMGZlNzliZWJlNDYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "BDPIR001",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

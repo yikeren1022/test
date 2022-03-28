@@ -1,0 +1,21 @@
+{
+	"name": "DS_ETL_END_TRIGGER_FS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_gw_tdb_trigger",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

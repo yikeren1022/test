@@ -1,0 +1,23 @@
+{
+	"name": "DS_ETL_RDB1018",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_blob_tdb_level_2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "RDB1018",
+				"container": "blob-tdb-level2"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

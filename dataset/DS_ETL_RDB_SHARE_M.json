@@ -1,0 +1,22 @@
+{
+	"name": "DS_ETL_RDB_SHARE_M",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_files_tdb_rdb",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"folderPath": "RDB_INP_M"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
