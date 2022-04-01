@@ -10,11 +10,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "sampleLF.csv",
+				"fileName": "sample.csv",
 				"container": "csv"
 			},
 			"columnDelimiter": ",",
-			"rowDelimiter": "\n",
 			"escapeChar": "/",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
