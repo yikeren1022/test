@@ -1,0 +1,7 @@
+{
+	"name": "Purview27",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/f9253429-341e-4422-a5fd-075bc7e6ba67/resourceGroups/purview/providers/Microsoft.Purview/accounts/yikerentest",
+		"groupId": "account"
+	}
+}
