@@ -1,0 +1,11 @@
+{
+	"name": "linkedService5",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"serviceEndpoint": "https://adfyikeren.blob.core.windows.net",
+			"accountKind": "StorageV2"
+		}
+	}
+}
