@@ -10,9 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "aaa.csv",
-				"folderPath": "output",
-				"container": "adftutorial"
+				"container": "datamigration"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
