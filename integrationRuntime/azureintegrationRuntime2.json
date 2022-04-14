@@ -2,6 +2,7 @@
 	"name": "azureintegrationRuntime2",
 	"properties": {
 		"type": "Managed",
+		"description": "vn",
 		"typeProperties": {
 			"computeProperties": {
 				"location": "Japan East",
