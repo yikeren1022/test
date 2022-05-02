@@ -24,7 +24,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "/copy/test"
+			"table": "dataflow"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
