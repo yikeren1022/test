@@ -6,6 +6,10 @@
 		"typeProperties": {
 			"serviceEndpoint": "https://adfyikeren.blob.core.windows.net",
 			"accountKind": "StorageV2"
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntime1",
+			"type": "IntegrationRuntimeReference"
 		}
 	}
 }
