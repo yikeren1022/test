@@ -9,22 +9,14 @@
 		"type": "AzureSqlDWTable",
 		"schema": [
 			{
-				"name": "CardID",
-				"type": "nchar"
-			},
-			{
-				"name": "CustomerID",
-				"type": "nchar"
-			},
-			{
-				"name": "EmployeeID",
-				"type": "int",
-				"precision": 10
+				"name": "column1",
+				"type": "time",
+				"scale": 3
 			}
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "copytest"
+			"table": "timetest"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"

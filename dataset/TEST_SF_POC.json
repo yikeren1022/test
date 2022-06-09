@@ -1,0 +1,267 @@
+{
+	"name": "TEST_SF_POC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AZURE_TITAN_INDY_STG",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SnowFlake_POC"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "BIGINT_NULL",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "BIGINT_MIN",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "BIGINT_MAX",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "INT_NULL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "INT_MIN",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "INT_MAX",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TINYINT_NULL",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "TINYINT_MIN",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "TINYINT_MAX",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "BIT_NULL",
+				"type": "bit"
+			},
+			{
+				"name": "BIT_MIN",
+				"type": "bit"
+			},
+			{
+				"name": "BIT_MAX",
+				"type": "bit"
+			},
+			{
+				"name": "DATE_NULL",
+				"type": "date"
+			},
+			{
+				"name": "DATE_MIN",
+				"type": "date"
+			},
+			{
+				"name": "DATE_MAX",
+				"type": "date"
+			},
+			{
+				"name": "DATETIME_NULL",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DATETIME_MIN",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DATETIME_MAX",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DATETIME2_NULL",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATETIME2_MIN",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATETIME2_MAX",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATETIMEOFFSET_NULL",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "DATETIMEOFFSET_MIN",
+				"type": "datetimeoffset",
+				"scale": 0
+			},
+			{
+				"name": "DATETIMEOFFSET_MAX",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "TIME_NULL",
+				"type": "time",
+				"scale": 7
+			},
+			{
+				"name": "TIME_MIN",
+				"type": "time",
+				"scale": 0
+			},
+			{
+				"name": "TIME_MAX",
+				"type": "time",
+				"scale": 7
+			},
+			{
+				"name": "DECIMAL_NULL",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 1
+			},
+			{
+				"name": "DECIMAL_MIN",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 1
+			},
+			{
+				"name": "DECIMAL_MAX",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 19
+			},
+			{
+				"name": "NUMERIC_NULL",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 1
+			},
+			{
+				"name": "NUMERIC_MIN",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 1
+			},
+			{
+				"name": "NUMERIC_MAX",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 19
+			},
+			{
+				"name": "FLOAT_NULL",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "FLOAT_MIN",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "FLOAT_MAX",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "REAL_NULL",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "REAL_MIN",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "REAL_MAX",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "CHAR_NULL",
+				"type": "char"
+			},
+			{
+				"name": "CHAR_MIN",
+				"type": "char"
+			},
+			{
+				"name": "CHAR_MAX",
+				"type": "char"
+			},
+			{
+				"name": "VARCHAR_NULL",
+				"type": "varchar"
+			},
+			{
+				"name": "VARCHAR_MIN",
+				"type": "varchar"
+			},
+			{
+				"name": "VARCHAR_MAX",
+				"type": "varchar"
+			},
+			{
+				"name": "NCHAR_NULL",
+				"type": "nchar"
+			},
+			{
+				"name": "NCHAR_MIN",
+				"type": "nchar"
+			},
+			{
+				"name": "NCHAR_MAX",
+				"type": "nchar"
+			},
+			{
+				"name": "NVARCHAR_NULL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NVARCHAR_MIN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NVARCHAR_MAX",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "INDY",
+			"table": "TEST_SF_POC"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

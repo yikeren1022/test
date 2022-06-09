@@ -10,8 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "勤怠状況（日単位）-株式会社FIXER-2022-04 (1).csv",
-				"container": "test"
+				"container": "zip"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

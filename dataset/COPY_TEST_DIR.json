@@ -1,36 +1,26 @@
 {
-	"name": "DelimitedText1",
+	"name": "COPY_TEST_DIR",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "linkedService5",
+			"referenceName": "azdftitn2snow001_ADLS",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SnowFlake_POC"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "Data 102MB.xlsx",
-				"container": "100mb"
+				"folderPath": "SQLDW_COPY_TEST",
+				"container": "poc1"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"type": "String"
-			},
-			{
-				"type": "String"
-			},
-			{
-				"type": "String"
-			},
-			{
-				"type": "String"
-			}
-		]
+		"schema": []
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
 }

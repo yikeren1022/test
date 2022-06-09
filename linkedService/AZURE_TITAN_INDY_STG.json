@@ -1,0 +1,16 @@
+{
+	"name": "AZURE_TITAN_INDY_STG",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDW",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=sqlsv-s-titan2-01.database.windows.net;initial catalog=dwhstitan2;user id=INDY",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJiMjFkZjFiOC0xOGZmLTQ1ZjQtOGVjZC1jOGI0MDUxMjBkODgiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "shr201908",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
