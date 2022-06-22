@@ -16,7 +16,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "timetest"
+			"table": "copytest"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
