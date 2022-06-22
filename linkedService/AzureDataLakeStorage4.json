@@ -1,0 +1,10 @@
+{
+	"name": "AzureDataLakeStorage4",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://adlsyikeren.dfs.core.windows.net/"
+		}
+	}
+}
