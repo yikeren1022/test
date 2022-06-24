@@ -1,0 +1,10 @@
+{
+	"name": "AzureDataLakeStorage5",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://ciasastorage.dfs.core.windows.net/"
+		}
+	}
+}
