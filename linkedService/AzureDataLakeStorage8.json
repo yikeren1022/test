@@ -1,0 +1,10 @@
+{
+	"name": "AzureDataLakeStorage8",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://kerenyi.dfs.core.windows.net/"
+		}
+	}
+}
