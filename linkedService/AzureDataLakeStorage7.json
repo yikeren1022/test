@@ -1,0 +1,14 @@
+{
+	"name": "AzureDataLakeStorage7",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://kerenyi.dfs.core.windows.net/"
+		},
+		"connectVia": {
+			"referenceName": "azureintegrationRuntime2",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
