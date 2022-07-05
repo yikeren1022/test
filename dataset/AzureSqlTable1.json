@@ -195,7 +195,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "dataflow"
+			"table": "Emptytable_copy"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
