@@ -1,0 +1,10 @@
+{
+	"name": "Purview325_namespace",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/f9253429-341e-4422-a5fd-075bc7e6ba67/resourceGroups/managed-rg-petest/providers/Microsoft.EventHub/namespaces/Atlas-98ad1f4c-2cfb-42e2-a4d1-69439494ee1f",
+		"groupId": "namespace",
+		"fqdns": [
+			"Atlas-98ad1f4c-2cfb-42e2-a4d1-69439494ee1f.servicebus.windows.net"
+		]
+	}
+}

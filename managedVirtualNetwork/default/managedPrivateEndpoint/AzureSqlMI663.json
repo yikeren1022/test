@@ -1,0 +1,10 @@
+{
+	"name": "AzureSqlMI663",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/2c814246-f495-4afe-90e5-e84f9abed074/resourceGroups/0130/providers/Microsoft.Sql/managedInstances/0130test",
+		"groupId": "managedInstance",
+		"fqdns": [
+			"0130test.a30a7c0c62aa.database.windows.net"
+		]
+	}
+}

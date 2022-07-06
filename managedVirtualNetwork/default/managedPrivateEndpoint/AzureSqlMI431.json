@@ -1,0 +1,10 @@
+{
+	"name": "AzureSqlMI431",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/a79413a8-4f17-4604-b325-d51045140e49/resourceGroups/rgforsqlmi/providers/Microsoft.Sql/managedInstances/sqlmitestlili",
+		"groupId": "managedInstance",
+		"fqdns": [
+			"sqlmitestlili.ed39138c1a23.database.windows.net"
+		]
+	}
+}

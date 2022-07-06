@@ -1,0 +1,10 @@
+{
+	"name": "Purview282_namespace",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/f9253429-341e-4422-a5fd-075bc7e6ba67/resourceGroups/managed-rg-yikerentest/providers/Microsoft.EventHub/namespaces/Atlas-bba169a8-f2b4-4403-a5f1-7bed790cfd07",
+		"groupId": "namespace",
+		"fqdns": [
+			"Atlas-bba169a8-f2b4-4403-a5f1-7bed790cfd07.servicebus.windows.net"
+		]
+	}
+}

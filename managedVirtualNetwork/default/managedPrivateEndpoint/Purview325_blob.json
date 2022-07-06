@@ -1,0 +1,10 @@
+{
+	"name": "Purview325_blob",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/f9253429-341e-4422-a5fd-075bc7e6ba67/resourceGroups/managed-rg-petest/providers/Microsoft.Storage/storageAccounts/scaneastusctxbmik",
+		"groupId": "blob",
+		"fqdns": [
+			"scaneastusctxbmik.blob.core.windows.net"
+		]
+	}
+}
