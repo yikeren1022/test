@@ -49,7 +49,7 @@
 				]
 			},
 			{
-				"name": "Set variable1",
+				"name": "dataRead",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -59,22 +59,58 @@
 						]
 					}
 				],
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "dataRead",
+					"value": {
+						"value": "@{string(activity('Copy data1').output.dataRead)}",
+						"type": "Expression"
+					}
+				}
 			},
 			{
 				"name": "If Condition1",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "dataRead",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(activity('dataRead').value,'0')",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "var",
+								"value": "aa"
+							}
+						}
+					]
+				}
 			}
 		],
+		"variables": {
+			"dataRead": {
+				"type": "String"
+			},
+			"dataWritten": {
+				"type": "String"
+			},
+			"var": {
+				"type": "Boolean"
+			}
+		},
 		"annotations": []
 	}
 }
