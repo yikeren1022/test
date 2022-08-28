@@ -1,0 +1,10 @@
+{
+	"name": "Purview27_queue",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/f9253429-341e-4422-a5fd-075bc7e6ba67/resourceGroups/managed-rg-yikerentest/providers/Microsoft.Storage/storageAccounts/scanaustraliaeastjdnwxuy",
+		"groupId": "queue",
+		"fqdns": [
+			"scanaustraliaeastjdnwxuy.queue.core.windows.net"
+		]
+	}
+}

@@ -9,9 +9,17 @@
 		"type": "AzureSqlDWTable",
 		"schema": [
 			{
-				"name": "column1",
-				"type": "time",
-				"scale": 3
+				"name": "CardID",
+				"type": "nchar"
+			},
+			{
+				"name": "CustomerID",
+				"type": "nchar"
+			},
+			{
+				"name": "EmployeeID",
+				"type": "int",
+				"precision": 10
 			}
 		],
 		"typeProperties": {

@@ -2,6 +2,9 @@
 	"name": "AzureDataLakeStorage674",
 	"properties": {
 		"privateLinkResourceId": "/subscriptions/f9253429-341e-4422-a5fd-075bc7e6ba67/resourceGroups/ADFQuickStartRG/providers/Microsoft.Storage/storageAccounts/adlsyikeren",
-		"groupId": "dfs"
+		"groupId": "dfs",
+		"fqdns": [
+			"adlsyikeren.dfs.core.windows.net"
+		]
 	}
 }

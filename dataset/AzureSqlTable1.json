@@ -9,193 +9,22 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "TheDate",
-				"type": "datetime",
-				"precision": 23,
-				"scale": 3
-			},
-			{
-				"name": "EmployeeID",
+				"name": "CardID",
 				"type": "nchar"
 			},
 			{
-				"name": "EmployeeName",
-				"type": "char"
+				"name": "CustomerID",
+				"type": "nchar"
 			},
 			{
-				"name": "Department1",
+				"name": "EmployeeID",
 				"type": "int",
 				"precision": 10
-			},
-			{
-				"name": "Department2",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "StartTime",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "EndTime",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Labor",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Rest",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "ManualStart",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "ManualEnd",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Labormanually",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Restmanually",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "StartTimebias",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "CloseTimebias",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborbias",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborregular",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborirregular",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborvacation",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Labor60H",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "LaborweekendRegular",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "LaborweekendIrregular",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborweekendvacation",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborweekendvacation60H",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborlegalvacation",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laboraggregation",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laboraggregationvacation",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborannualvacation",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborothernight",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborothernightvacation",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Labordeductionlate",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Labordeductionearly",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "LabordeductionOOF",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborafterdeductionlate",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "Laborafterdeductionearly",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "LaborafterdeductionOOF",
-				"type": "time",
-				"scale": 7
-			},
-			{
-				"name": "OOF",
-				"type": "time",
-				"scale": 7
 			}
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "Emptytable_copy"
+			"table": "/copy/test"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
