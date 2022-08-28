@@ -16,9 +16,46 @@
 				"userProperties": [],
 				"typeProperties": {
 					"packageLocation": {
-						"type": "SSISDB"
+						"packagePath": "\\\\adfyikeren.file.core.windows.net\\testyikeren9f12",
+						"type": "File",
+						"typeProperties": {
+							"accessCredential": {
+								"domain": "Azure",
+								"userName": "adfyikeren",
+								"password": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							}
+						}
 					},
-					"loggingLevel": "Basic"
+					"connectVia": {
+						"referenceName": "SSISIR",
+						"type": "IntegrationRuntimeReference"
+					},
+					"executionCredential": {
+						"domain": "azure",
+						"userName": "yikeren",
+						"password": {
+							"type": "SecureString",
+							"value": "**********"
+						}
+					},
+					"loggingLevel": "Basic",
+					"logLocation": {
+						"logPath": "\\\\adfyikeren.file.core.windows.net\\testyikeren9f12",
+						"type": "File",
+						"typeProperties": {
+							"accessCredential": {
+								"domain": "Azure",
+								"userName": "adfyikeren",
+								"password": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							}
+						}
+					}
 				}
 			}
 		],
