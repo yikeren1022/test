@@ -36,7 +36,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "Emptytable_copy"
+			"table": "Emptytable"
 		}
 	}
 }

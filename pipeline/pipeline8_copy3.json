@@ -49,7 +49,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select count(*) from [dbo].[Emptytable]",
+							"value": "select count(*) from [dbo].[Emptytable_copy]",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",

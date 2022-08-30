@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@greater(activity('Lookup1').output.count,0)",
+						"value": "@greater(activity('Lookup1').output.value,0)",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
@@ -56,7 +56,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "AzureSqlTable3",
+						"referenceName": "AzureSqlTable2",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
