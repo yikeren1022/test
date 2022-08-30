@@ -2,7 +2,7 @@
 	"name": "AzureSqlTable3",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlDatabase2",
+			"referenceName": "AzureSqlDatabase1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -36,7 +36,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "Emptytable"
+			"table": "Emptytable_copy"
 		}
 	}
 }
