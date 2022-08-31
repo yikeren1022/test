@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@greater(activity('Lookup1').output.count,0)",
+						"value": "@greater(activity('Lookup1').output.value,0)",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
@@ -49,7 +49,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select count(*) from [dbo].[Emptytable_copy]",
+							"value": "select count(*) from [dbo].[Emptytable_copy] as count",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
