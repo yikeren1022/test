@@ -16,17 +16,8 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"wildcardFolderPath": "**",
-							"wildcardFileName": "*.csv",
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "AzureTableSource",
+						"azureTableSourceIgnoreTableNotFound": false
 					},
 					"sink": {
 						"type": "DelimitedTextSink",
@@ -52,7 +43,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DelimitedText1",
+						"referenceName": "AzureTable1",
 						"type": "DatasetReference"
 					}
 				],
