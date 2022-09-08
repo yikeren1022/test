@@ -1,0 +1,15 @@
+{
+	"name": "SalesforceObject2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Salesforce2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SalesforceObject",
+		"schema": [],
+		"typeProperties": {
+			"objectApiName": "test__c"
+		}
+	}
+}
