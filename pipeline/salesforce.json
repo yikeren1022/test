@@ -1,5 +1,5 @@
 {
-	"name": "pipeline9",
+	"name": "salesforce",
 	"properties": {
 		"activities": [
 			{
@@ -15,8 +15,419 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"enableStaging": false
-				}
+					"source": {
+						"type": "SalesforceSource",
+						"readBehavior": "query"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Id",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 1
+								}
+							},
+							{
+								"source": {
+									"name": "OwnerId",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 2
+								}
+							},
+							{
+								"source": {
+									"name": "IsDeleted",
+									"type": "Boolean"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 3
+								}
+							},
+							{
+								"source": {
+									"name": "LastName",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 4
+								}
+							},
+							{
+								"source": {
+									"name": "FirstName",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 5
+								}
+							},
+							{
+								"source": {
+									"name": "Salutation",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 6
+								}
+							},
+							{
+								"source": {
+									"name": "Name",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 7
+								}
+							},
+							{
+								"source": {
+									"name": "HasOptedOutTracking",
+									"type": "Boolean"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 8
+								}
+							},
+							{
+								"source": {
+									"name": "HasOptedOutProfiling",
+									"type": "Boolean"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 9
+								}
+							},
+							{
+								"source": {
+									"name": "HasOptedOutProcessing",
+									"type": "Boolean"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 10
+								}
+							},
+							{
+								"source": {
+									"name": "HasOptedOutSolicit",
+									"type": "Boolean"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 11
+								}
+							},
+							{
+								"source": {
+									"name": "ShouldForget",
+									"type": "Boolean"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 12
+								}
+							},
+							{
+								"source": {
+									"name": "SendIndividualData",
+									"type": "Boolean"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 13
+								}
+							},
+							{
+								"source": {
+									"name": "CanStorePiiElsewhere",
+									"type": "Boolean"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 14
+								}
+							},
+							{
+								"source": {
+									"name": "HasOptedOutGeoTracking",
+									"type": "Boolean"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 15
+								}
+							},
+							{
+								"source": {
+									"name": "BirthDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 16
+								}
+							},
+							{
+								"source": {
+									"name": "DeathDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 17
+								}
+							},
+							{
+								"source": {
+									"name": "ConvictionsCount",
+									"type": "Int32"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 18
+								}
+							},
+							{
+								"source": {
+									"name": "ChildrenCount",
+									"type": "Int32"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 19
+								}
+							},
+							{
+								"source": {
+									"name": "MilitaryService",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 20
+								}
+							},
+							{
+								"source": {
+									"name": "IsHomeOwner",
+									"type": "Boolean"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 21
+								}
+							},
+							{
+								"source": {
+									"name": "Occupation",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 22
+								}
+							},
+							{
+								"source": {
+									"name": "Website",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 23
+								}
+							},
+							{
+								"source": {
+									"name": "IndividualsAge",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 24
+								}
+							},
+							{
+								"source": {
+									"name": "LastViewedDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 25
+								}
+							},
+							{
+								"source": {
+									"name": "MasterRecordId",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 26
+								}
+							},
+							{
+								"source": {
+									"name": "ConsumerCreditScore",
+									"type": "Int32"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 27
+								}
+							},
+							{
+								"source": {
+									"name": "ConsumerCreditScoreProviderName",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 28
+								}
+							},
+							{
+								"source": {
+									"name": "InfluencerRating",
+									"type": "Int32"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 29
+								}
+							},
+							{
+								"source": {
+									"name": "CreatedDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 30
+								}
+							},
+							{
+								"source": {
+									"name": "CreatedById",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 31
+								}
+							},
+							{
+								"source": {
+									"name": "LastModifiedDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 32
+								}
+							},
+							{
+								"source": {
+									"name": "LastModifiedById",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 33
+								}
+							},
+							{
+								"source": {
+									"name": "SystemModstamp",
+									"type": "DateTime"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 34
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SalesforceObject1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
