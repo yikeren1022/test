@@ -10,7 +10,9 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileSystem": "test"
+				"fileName": "aaa.csv",
+				"folderPath": "test",
+				"fileSystem": "adls2"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
