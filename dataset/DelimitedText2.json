@@ -2,17 +2,16 @@
 	"name": "DelimitedText2",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStorage1",
+			"referenceName": "AzureBlobStorage6",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation",
-				"fileName": "aaa.csv",
-				"folderPath": "test",
-				"fileSystem": "adls2"
+				"type": "AzureBlobStorageLocation",
+				"fileName": "dbo.timetest.txt",
+				"container": "csv"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
