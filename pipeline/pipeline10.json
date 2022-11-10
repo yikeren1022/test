@@ -46,10 +46,10 @@
 						},
 						"logLocationSettings": {
 							"linkedServiceName": {
-								"referenceName": "AzureDataLakeStorage1",
+								"referenceName": "AzureDataLakeStorage3",
 								"type": "LinkedServiceReference"
 							},
-							"path": "demo"
+							"path": "test"
 						}
 					},
 					"translator": {
