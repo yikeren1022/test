@@ -10,11 +10,25 @@
 						"type": "DatasetReference"
 					},
 					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "Json1",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
 				}
 			],
 			"sinks": [
 				{
 					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
 				}
 			],
 			"transformations": [
@@ -22,34 +36,19 @@
 					"name": "flatten1"
 				},
 				{
-					"name": "select1"
+					"name": "select2"
 				}
 			],
 			"scriptLines": [
-				"source(output(",
-				"          time as string,",
-				"          resourceId as string,",
-				"          category as string,",
-				"          operationName as string,",
-				"          operationVersion as string,",
-				"          schemaVersion as string,",
-				"          statusCode as integer,",
-				"          statusText as string,",
-				"          durationMs as integer,",
-				"          callerIpAddress as string,",
-				"          correlationId as string,",
-				"          identity as (type as string, tokenHash as string),",
-				"          location as string,",
-				"          properties as (accountName as string, serviceType as string, objectKey as string, metricResponseType as string, serverLatencyMs as integer, requestHeaderSize as integer, responseHeaderSize as integer, responseBodySize as integer, tlsVersion as string),",
-				"          uri as string,",
-				"          protocol as string,",
-				"          resourceType as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
+				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'singleDocument') ~> source1",
-				"select1 foldDown(unroll(),",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> source2",
+				"source1 foldDown(unroll(),",
 				"     mapColumn(",
 				"          time,",
 				"          resourceId,",
@@ -71,7 +70,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flatten1",
-				"source1 select(mapColumn(",
+				"source2 select(mapColumn(",
 				"          time,",
 				"          resourceId,",
 				"          category,",
@@ -85,16 +84,32 @@
 				"          correlationId,",
 				"          identity,",
 				"          location,",
+				"          properties,",
 				"          uri,",
 				"          protocol,",
 				"          resourceType",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
+				"     skipDuplicateMapOutputs: true) ~> select2",
 				"flatten1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> sink1",
+				"select2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CardID as string,",
+				"          CustomerID as string,",
+				"          EmployeeID as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
 			]
 		}
 	}
