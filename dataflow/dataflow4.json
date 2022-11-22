@@ -1,0 +1,59 @@
+{
+	"name": "dataflow4",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Json1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "flatten1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          time as string,",
+				"          resourceId as string,",
+				"          category as string,",
+				"          operationName as string,",
+				"          operationVersion as string,",
+				"          schemaVersion as string,",
+				"          statusCode as integer,",
+				"          statusText as string,",
+				"          durationMs as integer,",
+				"          callerIpAddress as string,",
+				"          correlationId as string,",
+				"          identity as (type as string, tokenHash as string),",
+				"          location as string,",
+				"          properties as (accountName as string, serviceType as string, objectKey as string, metricResponseType as string, serverLatencyMs as integer, requestHeaderSize as integer, responseHeaderSize as integer, responseBodySize as integer, tlsVersion as string),",
+				"          uri as string,",
+				"          protocol as string,",
+				"          resourceType as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> source1",
+				"source1 foldDown(unroll(),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"flatten1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

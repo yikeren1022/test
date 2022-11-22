@@ -1,0 +1,111 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage6",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "PT1H.json",
+				"container": "sample"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"time": {
+					"type": "string"
+				},
+				"resourceId": {
+					"type": "string"
+				},
+				"category": {
+					"type": "string"
+				},
+				"operationName": {
+					"type": "string"
+				},
+				"operationVersion": {
+					"type": "string"
+				},
+				"schemaVersion": {
+					"type": "string"
+				},
+				"statusCode": {
+					"type": "integer"
+				},
+				"statusText": {
+					"type": "string"
+				},
+				"durationMs": {
+					"type": "integer"
+				},
+				"callerIpAddress": {
+					"type": "string"
+				},
+				"correlationId": {
+					"type": "string"
+				},
+				"identity": {
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string"
+						},
+						"tokenHash": {
+							"type": "string"
+						}
+					}
+				},
+				"location": {
+					"type": "string"
+				},
+				"properties": {
+					"type": "object",
+					"properties": {
+						"accountName": {
+							"type": "string"
+						},
+						"serviceType": {
+							"type": "string"
+						},
+						"objectKey": {
+							"type": "string"
+						},
+						"metricResponseType": {
+							"type": "string"
+						},
+						"serverLatencyMs": {
+							"type": "integer"
+						},
+						"requestHeaderSize": {
+							"type": "integer"
+						},
+						"responseHeaderSize": {
+							"type": "integer"
+						},
+						"responseBodySize": {
+							"type": "integer"
+						},
+						"tlsVersion": {
+							"type": "string"
+						}
+					}
+				},
+				"uri": {
+					"type": "string"
+				},
+				"protocol": {
+					"type": "string"
+				},
+				"resourceType": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
