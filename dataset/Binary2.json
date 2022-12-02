@@ -1,0 +1,21 @@
+{
+	"name": "Binary2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage6",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@concat(formatDateTime(convertFromUtc(utcnow(), 'Tokyo Standard Time'), 'yyyyMMdd'), '_applicationids.csv')",
+					"type": "Expression"
+				},
+				"container": "zip"
+			}
+		}
+	}
+}
