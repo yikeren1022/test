@@ -1,0 +1,15 @@
+{
+	"name": "Dataverse3",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "CommonDataServiceForApps",
+		"typeProperties": {
+			"deploymentType": "Online",
+			"serviceUri": "https://org6e0a552f.crm7.dynamics.com/",
+			"authenticationType": "Office365",
+			"username": "azureuser@jpdsd2.onmicrosoft.com",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEU4QjgzNTcxLTE5MkEtNEFEQy05NDIxLTJGQjAzMDI3MjI4RF9mY2YwMTIxMi02OWIwLTQ4YTYtODJkOS02MzYyNjk0ZDI4ZTIiDQp9"
+		}
+	}
+}
