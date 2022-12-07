@@ -1,0 +1,15 @@
+{
+	"name": "DataverseEntity4",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Dataverse4",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CommonDataServiceForAppsEntity",
+		"schema": [],
+		"typeProperties": {
+			"entityName": "cr558_test1"
+		}
+	}
+}
