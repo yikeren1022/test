@@ -1,0 +1,15 @@
+{
+	"name": "DataverseEntity3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Dataverse3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CommonDataServiceForAppsEntity",
+		"schema": [],
+		"typeProperties": {
+			"entityName": "cr558_account"
+		}
+	}
+}

@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "data_00000000-0000-0000-0000-000000000000_a65555f3-c54c-4c33-9ab1-9e5181498034.zip",
 				"container": "test"
 			},
 			"columnDelimiter": ",",
