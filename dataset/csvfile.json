@@ -10,8 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "sample.csv",
-				"container": "demo"
+				"container": "test"
 			},
 			"columnDelimiter": ",",
 			"compressionCodec": "ZipDeflate",
