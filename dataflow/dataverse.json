@@ -1,0 +1,121 @@
+{
+	"name": "dataverse",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DataverseEntity1",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DataverseEntity5",
+						"type": "DatasetReference"
+					},
+					"name": "sink2",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureBlobStorage2",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          cr558_id as integer,",
+				"          createdonbehalfbyyominame as string,",
+				"          cr558_choicename as string,",
+				"          statecode as integer,",
+				"          owneridname as string,",
+				"          statecodename as string,",
+				"          cr558_name as string,",
+				"          cr558_choice as integer,",
+				"          importsequencenumber as integer,",
+				"          modifiedbyyominame as string,",
+				"          cr558_relationteableid as string,",
+				"          utcconversiontimezonecode as integer,",
+				"          createdbyyominame as string,",
+				"          modifiedbyname as string,",
+				"          timezoneruleversionnumber as integer,",
+				"          owneridtype as string,",
+				"          statuscodename as string,",
+				"          owneridyominame as string,",
+				"          modifiedon as timestamp,",
+				"          modifiedonbehalfbyyominame as string,",
+				"          statuscode as integer,",
+				"          createdbyname as string,",
+				"          createdon as timestamp,",
+				"          owningbusinessunitname as string,",
+				"          createdonbehalfbyname as string,",
+				"          modifiedonbehalfbyname as string,",
+				"          versionnumber as long,",
+				"          overriddencreatedon as timestamp,",
+				"          createdonbehalfby as string,",
+				"          owninguser as string,",
+				"          modifiedby as string,",
+				"          modifiedonbehalfby as string,",
+				"          ownerid as string,",
+				"          {@odata.etag} as string,",
+				"          createdby as string,",
+				"          owningbusinessunit as string,",
+				"          owningteam as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source2",
+				"source2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          cr558_id,",
+				"          createdonbehalfbyyominame,",
+				"          cr558_choicename,",
+				"          statecode,",
+				"          owneridname,",
+				"          statecodename,",
+				"          cr558_name,",
+				"          cr558_choice,",
+				"          importsequencenumber,",
+				"          modifiedbyyominame,",
+				"          cr558_relationteableid,",
+				"          utcconversiontimezonecode,",
+				"          createdbyyominame,",
+				"          modifiedbyname,",
+				"          timezoneruleversionnumber,",
+				"          owneridtype,",
+				"          statuscodename,",
+				"          owneridyominame,",
+				"          modifiedon,",
+				"          modifiedonbehalfbyyominame,",
+				"          statuscode,",
+				"          createdbyname,",
+				"          createdon,",
+				"          owningbusinessunitname,",
+				"          createdonbehalfbyname,",
+				"          modifiedonbehalfbyname,",
+				"          versionnumber,",
+				"          overriddencreatedon,",
+				"          createdonbehalfby,",
+				"          owninguser,",
+				"          modifiedby,",
+				"          modifiedonbehalfby,",
+				"          ownerid,",
+				"          etag = {@odata.etag},",
+				"          createdby,",
+				"          owningbusinessunit,",
+				"          owningteam",
+				"     )) ~> sink2"
+			]
+		}
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"name": "DataverseEntity5",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "relationshiptest2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CommonDataServiceForAppsEntity",
+		"schema": [],
+		"typeProperties": {
+			"entityName": "cr558_relationshiptest2"
+		}
+	}
+}
