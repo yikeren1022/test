@@ -26,7 +26,7 @@
 					"name": "Filter30OrAbove"
 				}
 			],
-			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 filter(toInteger(Age) >= 30) ~> Filter30OrAbove\nFilter30OrAbove sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Covid30YearsAbove.csv'],\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sink1"
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 filter(ERROR_FUNCTION('')) ~> Filter30OrAbove\nFilter30OrAbove sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Covid30YearsAbove.csv'],\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sink1"
 		}
 	}
 }
