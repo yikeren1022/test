@@ -70,12 +70,6 @@
 						]
 					}
 				},
-				"inputs": [
-					{
-						"referenceName": "csv",
-						"type": "DatasetReference"
-					}
-				],
 				"outputs": [
 					{
 						"referenceName": "Json1",

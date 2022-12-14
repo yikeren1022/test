@@ -37,28 +37,8 @@
 							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "csv",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "csvfile",
-						"type": "DatasetReference"
-					}
-				]
+					"enableStaging": false
+				}
 			}
 		],
 		"annotations": [],

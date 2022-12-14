@@ -54,12 +54,6 @@
 						"referenceName": "AzureSynapseAnalyticsTable1",
 						"type": "DatasetReference"
 					}
-				],
-				"outputs": [
-					{
-						"referenceName": "csv",
-						"type": "DatasetReference"
-					}
 				]
 			}
 		],

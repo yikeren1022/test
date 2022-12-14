@@ -5,10 +5,6 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "csv",
-						"type": "DatasetReference"
-					},
 					"name": "source3"
 				}
 			],
@@ -41,8 +37,7 @@
 				"          owningbusinessunit as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source3",
+				"     validateSchema: false) ~> source3",
 				"source3 select(mapColumn(",
 				"          cr558_address,",
 				"          cr558_name,",

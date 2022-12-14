@@ -20,28 +20,11 @@
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
-					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "AzureSqlTable3",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "csv",
 						"type": "DatasetReference"
 					}
 				]
