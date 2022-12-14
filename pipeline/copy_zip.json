@@ -44,6 +44,12 @@
 						"referenceName": "blobzip",
 						"type": "DatasetReference"
 					}
+				],
+				"outputs": [
+					{
+						"referenceName": "blobzip",
+						"type": "DatasetReference"
+					}
 				]
 			}
 		],
