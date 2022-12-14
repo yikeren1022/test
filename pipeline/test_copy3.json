@@ -51,7 +51,10 @@
 				"inputs": [
 					{
 						"referenceName": "DelimitedText12",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"paramter": "test"
+						}
 					}
 				],
 				"outputs": [

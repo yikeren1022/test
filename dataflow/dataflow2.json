@@ -5,11 +5,19 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "ADLS2",
+						"type": "DatasetReference"
+					},
 					"name": "source1"
 				}
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "ADLS2",
+						"type": "DatasetReference"
+					},
 					"name": "sink1"
 				}
 			],
@@ -18,7 +26,7 @@
 					"name": "Filter30OrAbove"
 				}
 			],
-			"script": "source(output(\n\t\t{Case no.} as string,\n\t\t{Report date} as string,\n\t\t{Date of onset} as string,\n\t\tGender as string,\n\t\tAge as string,\n\t\t{Name of hospital admitted} as string,\n\t\t{Hospitalised/Discharged/Deceased} as string,\n\t\t{HK/Non-HK resident} as string,\n\t\t{Case classification*} as string,\n\t\t{Confirmed/probable} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1\nsource1 filter(toInteger(Age) >= 30) ~> Filter30OrAbove\nFilter30OrAbove sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Covid30YearsAbove.csv'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sink1"
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 filter(toInteger(Age) >= 30) ~> Filter30OrAbove\nFilter30OrAbove sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Covid30YearsAbove.csv'],\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sink1"
 		}
 	}
 }

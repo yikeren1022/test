@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"packageLocation": {
-						"packagePath": "\\\\adfyikeren.file.core.windows.net\\testyikeren9f12",
+						"packagePath": "\\\\adfyikeren.file.core.windows.net\\testyikeren9f\\test.dtsx",
 						"type": "File",
 						"typeProperties": {
 							"accessCredential": {
