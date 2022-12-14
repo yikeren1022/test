@@ -15,14 +15,10 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DataverseEntity5",
+						"referenceName": "ADLS2",
 						"type": "DatasetReference"
 					},
-					"name": "sink2",
-					"rejectedDataLinkedService": {
-						"referenceName": "AzureBlobStorage2",
-						"type": "LinkedServiceReference"
-					}
+					"name": "sink3"
 				}
 			],
 			"transformations": [],
@@ -70,51 +66,11 @@
 				"     validateSchema: false) ~> source2",
 				"source2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     mapColumn(",
-				"          cr558_id,",
-				"          createdonbehalfbyyominame,",
-				"          statecode,",
-				"          cr558_sex,",
-				"          owneridname,",
-				"          statecodename,",
-				"          cr558_name,",
-				"          importsequencenumber,",
-				"          modifiedbyyominame,",
-				"          cr558_relationteableid,",
-				"          utcconversiontimezonecode,",
-				"          createdbyyominame,",
-				"          modifiedbyname,",
-				"          timezoneruleversionnumber,",
-				"          owneridtype,",
-				"          statuscodename,",
-				"          owneridyominame,",
-				"          modifiedon,",
-				"          cr558_sexname,",
-				"          modifiedonbehalfbyyominame,",
-				"          statuscode,",
-				"          createdbyname,",
-				"          createdon,",
-				"          owningbusinessunitname,",
-				"          createdonbehalfbyname,",
-				"          modifiedonbehalfbyname,",
-				"          versionnumber,",
-				"          overriddencreatedon,",
-				"          createdonbehalfby,",
-				"          owninguser,",
-				"          modifiedby,",
-				"          modifiedonbehalfby,",
-				"          ownerid,",
-				"          etag = {@odata.etag},",
-				"          createdby,",
-				"          owningbusinessunit,",
-				"          owningteam",
-				"     )) ~> sink2"
+				"     skipDuplicateMapOutputs: true) ~> sink3"
 			]
 		}
 	}

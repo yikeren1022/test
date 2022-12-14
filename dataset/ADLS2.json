@@ -2,7 +2,7 @@
 	"name": "ADLS2",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStorage2",
+			"referenceName": "AzureDataLakeStorage8",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,8 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "dbo.期間月.txt",
-				"fileSystem": "test"
+				"fileSystem": "yikeren"
 			},
 			"columnDelimiter": ",",
 			"rowDelimiter": "\r",
