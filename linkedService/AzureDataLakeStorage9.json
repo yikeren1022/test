@@ -1,0 +1,10 @@
+{
+	"name": "AzureDataLakeStorage9",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://adlsgen2yikeren.dfs.core.windows.net/"
+		}
+	}
+}
