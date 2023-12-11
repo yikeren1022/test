@@ -1,0 +1,10 @@
+{
+	"name": "AzureDataLakeStorage10",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://adfyikeren.dfs.core.windows.net/"
+		}
+	}
+}
